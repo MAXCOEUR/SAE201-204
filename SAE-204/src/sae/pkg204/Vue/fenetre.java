@@ -34,26 +34,29 @@ public class fenetre extends JFrame implements ActionListener {
     Singleton DataBaseApp;
     DataBase Application;
     private JPanel pano;
-    private JPanel JPanelTemperature;
-    private JPanel JPanelGraphique;
-    private JMenuBar menu;
-    private JMenu affiche;
-    private JMenu Modifier;
-    private JMenu utilisateur;
-    private JMenu database;
-    private JMenuItem general;
-    private JMenuItem ajouter_Bouteille;
-    private JMenuItem supprimer_Bouteille;
-    private JMenuItem ajouter_utilisateur;
-    private JMenuItem supprimer_utilisateur;
-    private JMenuItem changer_utilisateur;
-    private JMenuItem allumer_database;
-    private JMenuItem eteindre_database;
+    private JPanel JPanelTemperature; //derneir temperature enrtegistrer
+    private JPanel JPanelGraphique; // le graph des température sur le temp
+    private JLabel JPanelCamenbert; // de type de vin
+    private JMenuBar menu = new JMenuBar();
+    
+    private JMenu affiche = new JMenu("affiche");
+    private JMenu Modifier = new JMenu("modifier");
+    private JMenu utilisateur = new JMenu("Utilisateur");
+    private JMenu database = new JMenu("Database");
+    
+    private JMenuItem general = new JMenuItem("general");
+    private JMenuItem ajouter_Bouteille = new JMenuItem("Ajoute bouteille");
+    private JMenuItem supprimer_Bouteille = new JMenuItem("Supprimer bouteille");
+    private JMenuItem ajouter_utilisateur = new JMenuItem("Ajouter un utilisateur");
+    private JMenuItem supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
+    private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
+    private JMenuItem allumer_database = new JMenuItem("Allumer la database");
+    private JMenuItem eteindre_database = new JMenuItem("Eteindre la database");
     
 
     public fenetre() throws SQLException, ClassNotFoundException {
         this.Application = new DataBase(DataBaseApp);
-        this.setTitle("tmp");
+        this.setTitle("Domaine Montazac");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         affichage_début(true);
@@ -70,41 +73,32 @@ public class fenetre extends JFrame implements ActionListener {
     
     private void affichage_début(boolean tous_les_droits){
         
-        this.JPanelTemperature = new JPanel();
-        this.JPanelGraphique = new JPanel();
-        JPanelGraphique.setLayout(new GridBagLayout());
-        JPanelTemperature.setLayout(new GridBagLayout());
+        pano = new JPanel();
+        JPanelTemperature = new JPanel();
+        JPanelGraphique = new JPanel();
         
         
-        this.menu = new JMenuBar();
-        affiche = new JMenu("affiche");
-        this.Modifier = new JMenu("modifier");
+        
+        
         menu.add(affiche);
+            affiche.add(general);
+        
         menu.add(Modifier);
+            Modifier.add(ajouter_Bouteille);
+            Modifier.add(supprimer_Bouteille);
         
-        this.ajouter_Bouteille = new JMenuItem("Ajouter une bouteille");
-        this.supprimer_Bouteille = new JMenuItem("Supprimer une bouteille");
-        this.general = new JMenuItem("general");
-        Modifier.add(ajouter_Bouteille);
-        Modifier.add(supprimer_Bouteille);
-        this.utilisateur = new JMenu("Utilisateur");
-        this.changer_utilisateur = new JMenuItem("changer utilisateur");
-        this.utilisateur.add(changer_utilisateur);
         menu.add(utilisateur);
-        affiche.add(general);
-        
-        database = new JMenu("Database");
-        allumer_database = new JMenuItem("Allumer la database");
-        eteindre_database = new JMenuItem("Eteindre la database");
+            utilisateur.add(changer_utilisateur);
         
         menu.add(database);
-        database.add(allumer_database);
-        database.add(eteindre_database);
+            database.add(allumer_database);
+            database.add(eteindre_database);
         
-        this.pano = new JPanel();
         
-        this.setContentPane(pano);
-        this.pano.setLayout(new GridBagLayout());
+        
+        
+        setContentPane(pano);
+        pano.setLayout(new GridBagLayout());
         
         GridBagConstraints g = new GridBagConstraints();
         
@@ -112,20 +106,18 @@ public class fenetre extends JFrame implements ActionListener {
         
         g.gridx = 1;
         g.gridy = 1;
-        this.pano.add(JPanelGraphique, g);
+        pano.add(JPanelGraphique, g);
         
         g.gridx = 2;
         g.gridy = 1;
-        this.pano.add(JPanelTemperature, g);
+        pano.add(JPanelTemperature, g);
         
         if(tous_les_droits == true){
-            this.ajouter_utilisateur = new JMenuItem("Ajouter un utilisateur");
-            this.supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
-            this.utilisateur.add(ajouter_utilisateur);
-            this.utilisateur.add(supprimer_utilisateur);
+            utilisateur.add(ajouter_utilisateur);
+            utilisateur.add(supprimer_utilisateur);
         }
         
-        this.setJMenuBar(menu);
+        setJMenuBar(menu);
         this.pack();
     }
     
