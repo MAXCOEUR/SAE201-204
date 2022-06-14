@@ -45,7 +45,10 @@ public static void main( String[ ] args )throws Exception {
 //      C.CreateCourbe( "idSalle","NbSalleUtiliser", "Salles", 100);
 //      T.CreateTimeSeries();
 
-    EDT.CreateUser("CREATE TABLE test1;");
+   EDT.CreateUser("CREATE TABLE test1;");
+
+    fenetre fen = new fenetre();
+    fen.setVisible(true);
    }
 }
     
