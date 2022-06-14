@@ -24,26 +24,29 @@ public class SAE204 {
 public static void main( String[ ] args )throws Exception {
       
       
-      /* Create MySQL Database Connection */
-      
-      
-      Singleton DataBaseEdt = new Singleton("EDT");
-      DataBase EDT = new DataBase(DataBaseEdt);
-      String r1="select count(p.genre),p.genre as \"Genre\" from Professeurs p\n" +
-"group by genre;";
-      String r2="select *,count(idSeance) as NbSalleUtiliser from Seances\n" +
-"natural join Utilise\n" +
-"group by idSalle";
-      
-
-      
-      Camenbert Pie = new Camenbert(r1,DataBaseEdt);
-      Courbe C = new Courbe(r2,DataBaseEdt);
-      TimeSeriesChart T = new TimeSeriesChart(r1,DataBaseEdt);
-      
-      Pie.CreatePie("genre", "count(p.genre)", "Groupes");
-      C.CreateCourbe( "idSalle","NbSalleUtiliser", "Salles", 100);
-      T.CreateTimeSeries();
+//      /* Create MySQL Database Connection */
+//      
+//      
+//      Singleton DataBaseEdt = new Singleton("EDT");
+//      DataBase EDT = new DataBase(DataBaseEdt);
+//      String r1="select count(p.genre),p.genre as \"Genre\" from Professeurs p\n" +
+//"group by genre;";
+//      String r2="select *,count(idSeance) as NbSalleUtiliser from Seances\n" +
+//"natural join Utilise\n" +
+//"group by idSalle";
+//      
+//
+//      
+//      Camenbert Pie = new Camenbert(r1,DataBaseEdt);
+//      Courbe C = new Courbe(r2,DataBaseEdt);
+//      TimeSeriesChart T = new TimeSeriesChart(r1,DataBaseEdt);
+//      
+//      Pie.CreatePie("genre", "count(p.genre)", "Groupes");
+//      C.CreateCourbe( "idSalle","NbSalleUtiliser", "Salles", 100);
+//      T.CreateTimeSeries();
+        
+        fenetre fen = new fenetre();
+        fen.setVisible(true);
    }
 }
     
