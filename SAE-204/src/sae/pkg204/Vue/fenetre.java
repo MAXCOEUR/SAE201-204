@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sae.pkg204;
+package sae.pkg204.Vue;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -22,6 +22,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import sae.pkg204.DataBase;
+import sae.pkg204.Singleton;
+import sae.pkg204.Utilisateur;
 
 /**
  *
