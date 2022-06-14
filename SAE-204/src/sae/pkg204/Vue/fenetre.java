@@ -5,15 +5,22 @@
 package sae.pkg204.Vue;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,8 +29,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import sae.pkg204.DataBase;
+import sae.pkg204.RechercheDansBDD.LineChart;
+import sae.pkg204.RechercheDansBDD.DernierePriseT;
 import sae.pkg204.Singleton;
+import sae.pkg204.TimeSeriesChart;
 import sae.pkg204.Utilisateur;
 
 /**
@@ -33,10 +44,10 @@ import sae.pkg204.Utilisateur;
 public class fenetre extends JFrame implements ActionListener {
     Singleton DataBaseApp;
     DataBase Application;
-    private JPanel pano;
-    private JPanel JPanelTemperature; //derneir temperature enrtegistrer
-    private JPanel JPanelGraphique; // le graph des température sur le temp
-    private JLabel JPanelCamenbert; // de type de vin
+    private JPanel pano = new JPanel();
+    private JLabel JLabelTemperature; //derneir temperature enrtegistrer
+    private JPanel JPanelGraphique = new JPanel(); // le graph des température sur le temp
+    private JPanel JPanelCamenbert = new JPanel(); // de type de vin
     private JMenuBar menu = new JMenuBar();
     
     private JMenu affiche = new JMenu("affiche");
@@ -59,7 +70,7 @@ public class fenetre extends JFrame implements ActionListener {
         this.setTitle("Domaine Montazac");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        affichage_début(true);
+        affichageGeneral(true);
         
         ajouter_Bouteille.addActionListener(this);
         supprimer_Bouteille.addActionListener(this);
@@ -71,13 +82,38 @@ public class fenetre extends JFrame implements ActionListener {
         eteindre_database.addActionListener(this);
     }
     
-    private void affichage_début(boolean tous_les_droits){
+    private void affichageGeneral(boolean tous_les_droits){
         
-        pano = new JPanel();
-        JPanelTemperature = new JPanel();
-        JPanelGraphique = new JPanel();
+        pano.removeAll();
+        JPanelCamenbert.removeAll();
+        JPanelGraphique.removeAll();
         
+        try {
+            JLabelTemperature = new JLabel(DernierePriseT.DerniereTempérature()+"°C");
+            
+            LineChart.LineChart("(SELECT DateHeure D,temperature T FROM temperature ORDER BY D DESC LIMIT 12) ORDER BY D ASC;");
+            
+            
+        } catch (SQLException ex) {
+            ;
+        } catch (IOException ex) {
+            ;
+        } catch (Exception ex) {
+            ;
+        }
         
+        JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 100));
+        
+         
+        try {
+            BufferedImage bufImg = ImageIO.read(new File("image/LineChart.jpeg"));
+            JPanelGraphique.add(new JLabel(new ImageIcon(new ImageIcon(bufImg).getImage().getScaledInstance(getPreferredSize().width/2-10, getPreferredSize().height-20, Image.SCALE_DEFAULT))));
+            
+            BufferedImage bufImg2 = ImageIO.read(new File("image/Pie_Chart.jpeg"));
+            JPanelCamenbert.add(new JLabel(new ImageIcon(new ImageIcon(bufImg2).getImage().getScaledInstance(getPreferredSize().width/2-10, 2*getPreferredSize().height/3-10, Image.SCALE_DEFAULT))));
+        } catch (IOException ex) {
+            ;
+        }
         
         
         menu.add(affiche);
@@ -97,20 +133,32 @@ public class fenetre extends JFrame implements ActionListener {
         
         
         
-        setContentPane(pano);
+        
         pano.setLayout(new GridBagLayout());
         
         GridBagConstraints g = new GridBagConstraints();
         
         g.fill = GridBagConstraints.BOTH;
         
-        g.gridx = 1;
-        g.gridy = 1;
+        g.gridx = 0;
+        g.gridy = 0;
+        g.gridheight =2;
+        g.fill = GridBagConstraints.HORIZONTAL;
+        JPanelGraphique.setBorder(new LineBorder(Color.BLACK));
         pano.add(JPanelGraphique, g);
         
-        g.gridx = 2;
+        g.gridx = 1;
         g.gridy = 1;
-        pano.add(JPanelTemperature, g);
+        g.gridheight =1;
+        JPanelCamenbert.setBorder(new LineBorder(Color.BLACK));
+        pano.add(JPanelCamenbert, g);
+        
+        g.gridx = 1;
+        g.gridy = 0;
+        g.gridheight =1;
+        g.fill = GridBagConstraints.VERTICAL;
+        JLabelTemperature.setBorder(new LineBorder(Color.BLACK));
+        pano.add(JLabelTemperature, g);
         
         if(tous_les_droits == true){
             utilisateur.add(ajouter_utilisateur);
@@ -119,26 +167,17 @@ public class fenetre extends JFrame implements ActionListener {
         
         setJMenuBar(menu);
         this.pack();
-    }
-    
-    public void affichage_temperature(){
-        JLabel image;
-        image = new JLabel(new ImageIcon("image/Pie_Chart.jpeg"));
-        this.JPanelTemperature.add(image);
-    }
-    
-    public void affichage_graphique(){
-        JLabel image;
-        image = new JLabel(new ImageIcon("image/Pie_Chart.jpeg"));
-        this.JPanelGraphique.add(image);
         
+        setContentPane(pano);
+        pano.updateUI();
+        JPanelGraphique.updateUI();
+        JPanelCamenbert.updateUI();
     }
 
     @Override
     public Dimension getPreferredSize() {
         Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        int hauteur = (int)tailleEcran.getHeight();
-        int largeur = (int)tailleEcran.getWidth();
+        tailleEcran.height-=50;
         return tailleEcran;
     }
     
@@ -153,9 +192,7 @@ public class fenetre extends JFrame implements ActionListener {
             System.out.println(2);
         }
         if(e.getSource() == general){
-            affichage_graphique();
-            affichage_temperature();
-            pano.updateUI();
+            affichageGeneral(true);
         }
         if(e.getSource() == changer_utilisateur){
             Changer_utilisateur dialogue = new Changer_utilisateur(this);
@@ -185,7 +222,7 @@ public class fenetre extends JFrame implements ActionListener {
         }
         if(e.getSource() == allumer_database){
             try {
-              DataBaseApp = new Singleton("application");
+              DataBaseApp = new Singleton();
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {

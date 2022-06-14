@@ -25,6 +25,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.jdbc.JDBCPieDataset;
+import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
  *
@@ -36,8 +37,8 @@ public class Camenbert  {
     Statement statement = null;
     String r=null;
       
-    public Camenbert(String r1,Singleton s) throws SQLException {
-        statement = s.getStatement();
+    public Camenbert(String r1) throws SQLException {
+        statement = DatabaseConnection.getConnection();
         r=r1;
         
     }

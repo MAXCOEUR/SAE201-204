@@ -18,11 +18,11 @@ public class Singleton {
 
     Connection connect=null;
     Statement st=null;
-    public Singleton(String t) throws SQLException, ClassNotFoundException {
+    public Singleton() throws SQLException, ClassNotFoundException {
         
         Class.forName("org.mariadb.jdbc.Driver");
        connect = DriverManager.getConnection( 
-         "jdbc:mariadb://localhost:3306/"+t ,     
+         "jdbc:mariadb://localhost:3306/application" ,     
          "root",     
          "user01");
        st = connect.createStatement( );

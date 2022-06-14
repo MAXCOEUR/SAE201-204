@@ -20,6 +20,7 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.chart.ChartUtilities;
+import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
  *
@@ -30,8 +31,8 @@ public class TimeSeriesChart {
     Statement statement = null;
     String r=null;
       
-    public TimeSeriesChart(String r1, Singleton s) throws SQLException {
-        statement = s.getStatement();
+    public TimeSeriesChart(String r1) throws SQLException {
+        statement = DatabaseConnection.getConnection();
         r=r1;
     }
     
