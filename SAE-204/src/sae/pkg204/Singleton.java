@@ -33,4 +33,8 @@ public class Singleton {
         return st;
     }
     
+    public void stop() throws SQLException{
+        st.close();
+    }
+    
 }

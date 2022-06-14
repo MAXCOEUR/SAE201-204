@@ -27,8 +27,8 @@ public static void main( String[ ] args )throws Exception {
       /* Create MySQL Database Connection */
       
       
-      Singleton DataBaseEdt = new Singleton("TEST");
-      DataBase EDT = new DataBase(DataBaseEdt);
+      
+      
 //      String r1="select count(p.genre),p.genre as \"Genre\" from Professeurs p\n" +
 //"group by genre;";
 //      String r2="select *,count(idSeance) as NbSalleUtiliser from Seances\n" +
@@ -45,7 +45,7 @@ public static void main( String[ ] args )throws Exception {
 //      C.CreateCourbe( "idSalle","NbSalleUtiliser", "Salles", 100);
 //      T.CreateTimeSeries();
 
-   EDT.CreateUser("CREATE TABLE test1;");
+   
 
     fenetre fen = new fenetre();
     fen.setVisible(true);

@@ -24,8 +24,8 @@ public class DataBase {
         Base = t;
     }
     
-    public void CreateUser(String requete) throws SQLException{
-        statement.executeQuery(requete);
+    public ResultSet CreateUser(String requete) throws SQLException{
+        return Base.st.executeQuery(requete);
     }
 
 }
