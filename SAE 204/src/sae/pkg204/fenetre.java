@@ -31,14 +31,27 @@ public class fenetre extends JFrame implements ActionListener{
     private JMenuBar menu;
     private JMenu affiche;
     private JMenu Modifier;
+    private JMenu utilisateur;
     private JMenuItem general;
     private JMenuItem ajouter_Bouteille;
     private JMenuItem supprimer_Bouteille;
+    private JMenuItem ajouter_utilisateur;
+    private JMenuItem supprimer_utilisateur;
+    private JMenuItem changer_utilisateur;
 
     public fenetre() {
         
         this.setTitle("tmp");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        affichage_début(true);
+        
+        ajouter_Bouteille.addActionListener(this);
+        supprimer_Bouteille.addActionListener(this);
+        general.addActionListener(this);
+    }
+    
+    private void affichage_début(boolean tous_les_droits){
         
         this.JPanelTemperature = new JPanel();
         this.JPanelGraphique = new JPanel();
@@ -78,12 +91,11 @@ public class fenetre extends JFrame implements ActionListener{
         g.gridy = 1;
         this.pano.add(JPanelTemperature, g);
         
+        if(tous_les_droits == true){
+            
+        }
         
         this.pack();
-        
-        ajouter_Bouteille.addActionListener(this);
-        supprimer_Bouteille.addActionListener(this);
-        general.addActionListener(this);
     }
     
     public void affichage_temperature(){
@@ -120,6 +132,7 @@ public class fenetre extends JFrame implements ActionListener{
         if(e.getSource() == general){
             affichage_graphique();
             affichage_temperature();
+            pano.updateUI();
         }
     }
     
