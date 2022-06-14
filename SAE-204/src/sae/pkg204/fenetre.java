@@ -152,10 +152,14 @@ public class fenetre extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==ajouter_Bouteille){
-            System.out.println(1);
+            Bouteille ajout;
+            AjouterBouteille dialogue = new AjouterBouteille(this);
+            ajout = dialogue. ShowDialog();
         }
         if(e.getSource() == supprimer_Bouteille){
-            System.out.println(2);
+            Bouteille supp;
+            SupprimerBouteille dialogue = new SupprimerBouteille(this);
+            supp = dialogue. ShowDialog();
         }
         if(e.getSource() == general){
             affichage_graphique();
