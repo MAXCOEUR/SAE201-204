@@ -49,6 +49,9 @@ public class fenetre extends JFrame implements ActionListener{
         ajouter_Bouteille.addActionListener(this);
         supprimer_Bouteille.addActionListener(this);
         general.addActionListener(this);
+        changer_utilisateur.addActionListener(this);
+        ajouter_utilisateur.addActionListener(this);
+        supprimer_utilisateur.addActionListener(this);
     }
     
     private void affichage_début(boolean tous_les_droits){
@@ -70,9 +73,12 @@ public class fenetre extends JFrame implements ActionListener{
         this.general = new JMenuItem("general");
         Modifier.add(ajouter_Bouteille);
         Modifier.add(supprimer_Bouteille);
-        
+        this.utilisateur = new JMenu("Utilisateur");
+        this.changer_utilisateur = new JMenuItem("changer utilisateur");
+        this.utilisateur.add(changer_utilisateur);
+        menu.add(utilisateur);
         affiche.add(general);
-        this.setJMenuBar(menu);
+        
         
         this.pano = new JPanel();
         
@@ -92,9 +98,13 @@ public class fenetre extends JFrame implements ActionListener{
         this.pano.add(JPanelTemperature, g);
         
         if(tous_les_droits == true){
-            
+            this.ajouter_utilisateur = new JMenuItem("Ajouter un utilisateur");
+            this.supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
+            this.utilisateur.add(ajouter_utilisateur);
+            this.utilisateur.add(supprimer_utilisateur);
         }
         
+        this.setJMenuBar(menu);
         this.pack();
     }
     
@@ -133,6 +143,22 @@ public class fenetre extends JFrame implements ActionListener{
             affichage_graphique();
             affichage_temperature();
             pano.updateUI();
+        }
+        if(e.getSource() == changer_utilisateur){
+            Changer_utilisateur dialogue = new Changer_utilisateur(this);
+            String tmp = dialogue.ShowDialog();
+            System.out.println(tmp);
+        }
+        if(e.getSource() == ajouter_utilisateur){
+            ajouter_utilisateur dialogue = new ajouter_utilisateur(this);
+            Utilisateur ut = new Utilisateur();
+            ut = dialogue.ShowDialog();
+            System.out.println(ut);
+        }
+        if(e.getSource() == supprimer_utilisateur){
+            Supprimer_utilisateur dialogue = new Supprimer_utilisateur(this);
+            String tmp = dialogue.ShowDialog();
+            System.out.println(tmp);
         }
     }
     
