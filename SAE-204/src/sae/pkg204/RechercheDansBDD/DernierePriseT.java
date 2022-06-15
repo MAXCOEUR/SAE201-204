@@ -16,7 +16,7 @@ public class DernierePriseT {
     public static double DerniereTempérature() throws SQLException{
         Statement s = DatabaseConnection.getConnection();
         
-        ResultSet resultSet = s.executeQuery("SELECT temperature from temperature where DateHeure in (SELECT max(DateHeure) from temperature);");
+        ResultSet resultSet = s.executeQuery("SELECT ROUND(temperature,1) temperature from temperature where DateHeure in (SELECT max(DateHeure) from temperature);");
         
         double tmp=0.0;
         while (resultSet.next()) {

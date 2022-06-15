@@ -11,10 +11,13 @@ import com.pi4j.io.gpio.RaspiPinNumberingScheme;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import com.sun.source.tree.BreakTree;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -38,12 +41,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-import sae.pkg204.Camenbert;
+import org.jfree.chart.ChartPanel;
+import sae.pkg204.RechercheDansBDD.Camenbert;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
 import sae.pkg204.AnalogI2CInput;
 import sae.pkg204.DHT22;
+import sae.pkg204.SAE204;
 
 /**
  *
@@ -82,20 +87,10 @@ public class fenetre extends JFrame implements ActionListener {
 //        I2CDevice device = i2c.getDevice(0x04);
         
 //        final DHT22 dht = new DHT22(0x04);
-        AnalogI2CInput an = new AnalogI2CInput(0);
-        DHT22 dht22 = new DHT22(5);
-        //System.out.println(dht.getTemperatureAndHumidity());
-        dht22.consolePrinttTemperature();
         
         
-//        
         
-        
-        System.out.println("aled");
-        System.out.println();
-        //System.out.println(Anal.get());
-        System.out.println();
-        System.out.println();
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         
         tailleFenetre=getPreferredSize();
         
@@ -108,6 +103,12 @@ public class fenetre extends JFrame implements ActionListener {
               
         affichageGeneral(true);
         
+        if (device.isFullScreenSupported()) {
+            device.setFullScreenWindow(this);
+        } else {
+            System.err.println("Le mode plein ecran n'est pas disponible");
+        }
+        
         ajouter_Bouteille.addActionListener(this);
         supprimer_Bouteille.addActionListener(this);
         general.addActionListener(this);
@@ -117,7 +118,7 @@ public class fenetre extends JFrame implements ActionListener {
         quitter.addActionListener(this);
     }
     
-    private void affichageGeneral(boolean tous_les_droits){
+    public void affichageGeneral(boolean tous_les_droits){
         
         pano.removeAll();
         JPanelCamenbert.removeAll();
@@ -126,10 +127,16 @@ public class fenetre extends JFrame implements ActionListener {
         try {
             
             JLabelTemperature = new JLabel(DernierePriseT.DerniereTempérature()+"°C");
-            JPanelGraphique.add(LineChart.LineChart("(SELECT right(DateHeure,8) D,temperature T,DateHeure G FROM temperature ORDER BY G DESC LIMIT 6) ORDER BY G ASC;"));
+            
+            ChartPanel tmp = LineChart.LineChart("(SELECT right(DateHeure,8)  D,temperature T,DateHeure G FROM temperature ORDER BY G DESC LIMIT 6) ORDER BY G ASC;");
+            tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height-50));
+            JPanelGraphique.add(tmp);
             JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2-5, getPreferredSize().height-40));
-            JPanelCamenbert.add(Camenbert.CreatePie("SELECT count(type) as Nombre,type from stock group by type;"));
-            JPanelCamenbert.setPreferredSize(new Dimension(getPreferredSize().width/2-35, (getPreferredSize().height/3)*2-35));
+            
+            ChartPanel tmp2 = Camenbert.CreatePie("SELECT count(type) as Nombre,type from stock group by type;");
+            tmp2.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, (fenetre.tailleFenetre.height/3)*2-50));
+            JPanelCamenbert.add(tmp2);
+            JPanelCamenbert.setPreferredSize(new Dimension(getPreferredSize().width/2-5, (getPreferredSize().height/3)*2-40));
             
         } catch (SQLException ex) {
             ;
@@ -138,19 +145,7 @@ public class fenetre extends JFrame implements ActionListener {
         } catch (Exception ex) {
             ;
         }
-        
-        JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 100));
-
-         
-//        try {
-//            //BufferedImage bufImg = ImageIO.read(new File("image/LineChart.jpeg"));
-//            //JPanelGraphique.add(new JLabel(new ImageIcon(new ImageIcon(bufImg).getImage().getScaledInstance(getPreferredSize().width/2-10, getPreferredSize().height-20, Image.SCALE_DEFAULT))));
-//            
-//            //BufferedImage bufImg2 = ImageIO.read(new File("image/Pie_Chart.jpeg"));
-//            
-//        } catch (IOException ex) {
-//            ;
-//        }
+        JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
         
         
         menu.add(affiche);
@@ -207,12 +202,15 @@ public class fenetre extends JFrame implements ActionListener {
         pano.updateUI();
         JPanelGraphique.updateUI();
         JPanelCamenbert.updateUI();
+        
+        
     }
+    
+    
 
     @Override
     public Dimension getPreferredSize() {
         Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        tailleEcran.height-=40;
         return tailleEcran;
     }
     
@@ -223,14 +221,21 @@ public class fenetre extends JFrame implements ActionListener {
         if(e.getSource()==ajouter_Bouteille){
             Bouteille ajout;
             AjouterBouteille dialogue = new AjouterBouteille(this);
-            ajout = dialogue. ShowDialog();
+            ajout = dialogue.ShowDialog();
             if(ajout != null){
                try {
-                    DatabaseConnection.Requete("INSERT INTO stock (nom,annee,type) VALUES ("+ajout.getNom()+","+ajout.getAnnee()+","+ajout.getType()+")");
+                   String Query="INSERT INTO `stock` (`id`, `nom`, `date`, `type`) VALUES ";
+                   for (int i = 0; i < ajout.getNb_bouteille(); i++) {
+                       Query+="(NULL, '"+ajout.getNom()+"', '"+ajout.getAnnee()+"', '"+ajout.getType()+"'),";
+                   }
+                   Query = Query.substring(0, Query.length()-1);
+                   Query+=";";
+                   DatabaseConnection.Requete(Query);
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            affichageGeneral(true);
         }
         if(e.getSource() == supprimer_Bouteille){
             Bouteille supp;
@@ -240,12 +245,13 @@ public class fenetre extends JFrame implements ActionListener {
                 dialogue = new SupprimerBouteille(this);
                 supp = dialogue.ShowDialog();
                 if(supp != null){
-                    ;
+                    
+                    DatabaseConnection.Requete("DELETE from stock WHERE nom like '"+supp.getNom()+"' and date like '"+supp.getAnnee()+"' and type like '"+supp.getType()+"' LIMIT "+supp.getNb_bouteille()+";");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            affichageGeneral(true);
         }
         
         if(e.getSource() == general){
@@ -287,6 +293,7 @@ public class fenetre extends JFrame implements ActionListener {
             
         }
         if(e.getSource() == quitter){
+            SAE204.t.stop();
             this.dispose();
         }
     }

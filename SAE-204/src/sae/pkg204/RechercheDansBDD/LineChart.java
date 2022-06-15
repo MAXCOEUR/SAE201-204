@@ -41,9 +41,6 @@ public class LineChart {
 //      ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, width ,height);
         
         
-        
-        ChartPanel tmp = new ChartPanel(lineChartObject);
-        tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height-50));
-      return  tmp;
+      return  new ChartPanel(lineChartObject);
     }
 }

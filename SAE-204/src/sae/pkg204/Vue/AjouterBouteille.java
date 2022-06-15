@@ -41,7 +41,6 @@ public class AjouterBouteille extends JDialog implements ActionListener, FocusLi
     
     public AjouterBouteille(Frame owner) {
         super(owner,true);
-        ajout = new Bouteille();
         nom = new JTextField("nom de la bouteille");
         annee = new JTextField("annee de mise en bouteille");
         nb_bouteille = new JTextField("nombre de bouteille a ajouter");
@@ -110,13 +109,10 @@ public class AjouterBouteille extends JDialog implements ActionListener, FocusLi
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == valider){
-            ajout.setNom(nom.getText());
-            ajout.setAnnee(annee.getText());
-            ajout.setType(type.getText());
+        if(e.getSource() == valider){            
             try {
                 int tmp = Integer.parseInt(nb_bouteille.getText());
-                ajout.setNb_bouteille(tmp);
+                ajout = new Bouteille(tmp, nom.getText(), annee.getText(), type.getText());
             } catch (NumberFormatException ex) {
                 System.out.println("nombre de bouteille pas au bon format");
             }

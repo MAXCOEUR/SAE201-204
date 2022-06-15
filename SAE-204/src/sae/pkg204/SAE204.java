@@ -22,10 +22,16 @@ import org.jfree.data.jdbc.JDBCPieDataset;
  */
 public class SAE204 {
 
+    public static fenetre fen;
+    public static ThreadPriseDonnee t;
 public static void main( String[ ] args )throws Exception {
+
     
-    fenetre fen = new fenetre();
+    fen = new fenetre();
+    t = new ThreadPriseDonnee();
+    t.start();
     fen.setVisible(true);
+    
    }
 }
     

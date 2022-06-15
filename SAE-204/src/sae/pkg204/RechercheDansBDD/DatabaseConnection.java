@@ -41,6 +41,7 @@ public class DatabaseConnection {
             return st;
 	}
         public static ResultSet Requete(String r) throws SQLException{
+            getConnection();
             return st.executeQuery(r);
         }
 }

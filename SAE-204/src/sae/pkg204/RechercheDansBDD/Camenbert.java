@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sae.pkg204;
+package sae.pkg204.RechercheDansBDD;
 
 import java.awt.Dimension;
 import java.io.File;
@@ -64,9 +64,9 @@ public class Camenbert  {
 //      ChartUtilities.saveChartAsJPEG( pieChart , chart , width , height );
         
         
-        ChartPanel tmp = new ChartPanel(chart);
-        tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-50, (fenetre.tailleFenetre.height/3)*2-50));
-      return  tmp;
+        
+        
+      return  new ChartPanel(chart);
     
     }
 

@@ -20,6 +20,13 @@ public class Bouteille {
         annee= new String();
     }
 
+    public Bouteille(int nb_bouteille, String nom, String annee, String type) {
+        this.nb_bouteille = nb_bouteille;
+        this.nom = nom;
+        this.annee = annee;
+        this.type = type;
+    }
+    
     public int getNb_bouteille() {
         return nb_bouteille;
     }
@@ -50,6 +57,11 @@ public class Bouteille {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Bouteille{" + "nb_bouteille=" + nb_bouteille + ", nom=" + nom + ", annee=" + annee + ", type=" + type + '}';
     }
     
     

@@ -33,8 +33,9 @@ public class DHT22 {
     }
 
     // pinNumber number = Wriring PI 
-    public String getTemperatureAndHumidity() {
+    public TempEtHum getTemperatureAndHumidity() {
         String temperature="no data";
+        TempEtHum tmp = null;
         boolean done = false;
         int attempts=0;
         while (!done && attempts<100) {
@@ -95,7 +96,7 @@ public class DHT22 {
                 //final float f = c * 1.8f + 32;
                 
                 temperature = "Humidity = " + h + " % - Temperature = " + c + " °C";
-                               
+                tmp = new TempEtHum(c, h);
                 done = true;
             }
         }
@@ -103,8 +104,7 @@ public class DHT22 {
             temperature = "Data not avalaible...";
 
         }
-        System.out.println(temperature);
-        return temperature;
+        return tmp;
     }
     
     // pinNumber number = Wriring PI 
