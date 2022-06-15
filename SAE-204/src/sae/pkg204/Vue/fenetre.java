@@ -35,8 +35,6 @@ import sae.pkg204.DataBase;
 import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
 import sae.pkg204.Singleton;
-import sae.pkg204.TimeSeriesChart;
-import sae.pkg204.Utilisateur;
 
 /**
  *
@@ -57,7 +55,6 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenu affiche = new JMenu("affiche");
     private JMenu Modifier = new JMenu("modifier");
     private JMenu utilisateur = new JMenu("Utilisateur");
-    private JMenu database = new JMenu("Database");
     
     private JMenuItem general = new JMenuItem("general");
     private JMenuItem ajouter_Bouteille = new JMenuItem("Ajoute bouteille");
@@ -133,9 +130,7 @@ public class fenetre extends JFrame implements ActionListener {
         menu.add(utilisateur);
             utilisateur.add(changer_utilisateur);
         
-        menu.add(database);
-            database.add(allumer_database);
-            database.add(eteindre_database);
+        
         
         
         
