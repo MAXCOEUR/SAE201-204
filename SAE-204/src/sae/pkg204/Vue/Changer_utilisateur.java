@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sae.pkg204;
+package sae.pkg204.Vue;
 
+import sae.pkg204.Vue.fenetre;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -11,20 +12,21 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
  *
  * @author chama
  */
-public class Supprimer_utilisateur extends JDialog implements ActionListener{
+public class Changer_utilisateur extends JDialog implements ActionListener{
 
     private JComboBox choix_utilisateur;
     private JButton valider;
     private String utilisateur;
     private JPanel pano;
     
-    public Supprimer_utilisateur(fenetre fen) {
+    public Changer_utilisateur(fenetre fen) {
         
         super(fen, true);
         utilisateur = new String();
@@ -66,4 +68,3 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
         return utilisateur;
     }
 }
-

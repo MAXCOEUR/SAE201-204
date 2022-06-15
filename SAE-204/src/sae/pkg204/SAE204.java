@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package sae.pkg204;
+import sae.pkg204.Vue.fenetre;
 import java.io.File;
 import java.sql.*;  
 import java.sql.SQLException;
