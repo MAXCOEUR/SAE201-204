@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -31,10 +32,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import sae.pkg204.Camenbert;
-import sae.pkg204.DataBase;
+import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
-import sae.pkg204.Singleton;
 
 /**
  *
@@ -44,8 +44,8 @@ public class fenetre extends JFrame implements ActionListener {
     
     public static Dimension tailleFenetre;
     
-    Singleton DataBaseApp;
-    DataBase Application;
+    
+
     private JPanel pano = new JPanel();
     private JLabel JLabelTemperature; //derneir temperature enrtegistrer
     private JPanel JPanelGraphique = new JPanel(); // le graph des température sur le temp
@@ -68,9 +68,9 @@ public class fenetre extends JFrame implements ActionListener {
         
         tailleFenetre=getPreferredSize();
         
-        this.Application = new DataBase(DataBaseApp);
-        this.setTitle("Domaine Montazac");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        setTitle("Domaine Montazac");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         Changer_utilisateur JDialogDebut = new Changer_utilisateur(this);
         String ut = JDialogDebut.ShowDialog();
@@ -211,7 +211,8 @@ public class fenetre extends JFrame implements ActionListener {
             ut = dialogue.ShowDialog();
             System.out.println(ut);
             try {
-                Application.CreateUser("CREATE USER "+ut.getNom()+" IDENTIFIED BY "+ut.getMot_de_passe()+"; \n GRANT"+ ut.getRole()+" TO "+ut.getNom()+"; ");
+                Statement s = DatabaseConnection.getConnection();
+                ResultSet resultSet = s.executeQuery("CREATE USER "+ut.getNom()+" IDENTIFIED BY "+ut.getMot_de_passe()+"; \n GRANT"+ ut.getRole()+" TO "+ut.getNom()+"; ");
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -221,7 +222,8 @@ public class fenetre extends JFrame implements ActionListener {
             String tmp = dialogue.ShowDialog();
             System.out.println(tmp);
             try {
-                Application.CreateUser("DROP USER "+tmp+"; ");
+                Statement s = DatabaseConnection.getConnection();
+                ResultSet resultSet = s.executeQuery("DROP USER "+tmp+"; ");
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
