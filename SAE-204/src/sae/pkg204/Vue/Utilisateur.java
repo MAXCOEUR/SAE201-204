@@ -1,4 +1,4 @@
-package sae.pkg204;
+package sae.pkg204.Vue;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

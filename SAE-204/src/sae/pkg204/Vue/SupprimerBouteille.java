@@ -16,7 +16,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import sae.pkg204.Bouteille;
 
 /**
  *

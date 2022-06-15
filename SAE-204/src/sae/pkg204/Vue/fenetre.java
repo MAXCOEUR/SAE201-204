@@ -24,7 +24,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import sae.pkg204.DataBase;
 import sae.pkg204.Singleton;
-import sae.pkg204.Utilisateur;
 
 /**
  *
