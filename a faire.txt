@@ -14,3 +14,6 @@ toutes les fiches dialogues
     supp utilisateur
     
 selection utilisateur au demarage
+
+
+prise de températur et humiditer
