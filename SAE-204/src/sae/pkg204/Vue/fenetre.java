@@ -71,6 +71,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem ajouter_utilisateur = new JMenuItem("Ajouter un utilisateur");
     private JMenuItem supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
     private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
+    private JMenuItem quitter = new JMenuItem("Quitter");
     
 
     public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException {
@@ -98,6 +99,7 @@ public class fenetre extends JFrame implements ActionListener {
         changer_utilisateur.addActionListener(this);
         ajouter_utilisateur.addActionListener(this);
         supprimer_utilisateur.addActionListener(this);
+        quitter.addActionListener(this);
     }
     
     private void affichageGeneral(boolean tous_les_droits){
@@ -146,7 +148,7 @@ public class fenetre extends JFrame implements ActionListener {
         menu.add(utilisateur);
             utilisateur.add(changer_utilisateur);
         
-        
+        menu.add(quitter);
         
         
         
@@ -207,21 +209,28 @@ public class fenetre extends JFrame implements ActionListener {
             Bouteille ajout;
             AjouterBouteille dialogue = new AjouterBouteille(this);
             ajout = dialogue. ShowDialog();
-            try {
-                DatabaseConnection.Requete("INSERT INTO stock (nom,annee,type) VALUES ("+ajout.getNom()+","+ajout.getAnnee()+",rouge)");
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            if(ajout != null){
+               try {
+                    DatabaseConnection.Requete("INSERT INTO stock (nom,annee,type) VALUES ("+ajout.getNom()+","+ajout.getAnnee()+",rouge)");
+                } catch (SQLException ex) {
+                    Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         if(e.getSource() == supprimer_Bouteille){
             Bouteille supp;
-            SupprimerBouteille dialogue = null;
+
+            SupprimerBouteille dialogue;
             try {
                 dialogue = new SupprimerBouteille(this);
+                supp = dialogue.ShowDialog();
+                if(supp != null){
+                    ;
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-            supp = dialogue. ShowDialog();
+            
         }
         
         if(e.getSource() == general){
@@ -258,6 +267,9 @@ public class fenetre extends JFrame implements ActionListener {
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        if(e.getSource() == quitter){
+            this.dispose();
         }
     }
     

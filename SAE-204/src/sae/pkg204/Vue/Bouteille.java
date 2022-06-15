@@ -12,8 +12,12 @@ public class Bouteille {
     private int nb_bouteille;
     private String nom;
     private String annee;
+    private String type;
     
     public Bouteille() {
+        type = new String();
+        nom= new String();
+        annee= new String();
     }
 
     public int getNb_bouteille() {
@@ -38,6 +42,14 @@ public class Bouteille {
 
     public void setAnnee(String annee) {
         this.annee = annee;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
     
