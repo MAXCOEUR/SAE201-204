@@ -75,7 +75,27 @@ public class fenetre extends JFrame implements ActionListener {
     
 
     public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException {
+//        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+//        GpioController gpio = GpioFactory.getInstance();
         
+//        I2CBus i2c=I2CFactory.getInstance(I2CBus.BUS_1);
+//        I2CDevice device = i2c.getDevice(0x04);
+        
+//        final DHT22 dht = new DHT22(0x04);
+        AnalogI2CInput an = new AnalogI2CInput(0);
+        DHT22 dht22 = new DHT22(5);
+        //System.out.println(dht.getTemperatureAndHumidity());
+        dht22.consolePrinttTemperature();
+        
+        
+//        
+        
+        
+        System.out.println("aled");
+        System.out.println();
+        //System.out.println(Anal.get());
+        System.out.println();
+        System.out.println();
         
         tailleFenetre=getPreferredSize();
         
@@ -85,8 +105,7 @@ public class fenetre extends JFrame implements ActionListener {
         
         Changer_utilisateur JDialogDebut = new Changer_utilisateur(this);
         String ut = JDialogDebut.ShowDialog();
-        
-        
+              
         affichageGeneral(true);
         
         ajouter_Bouteille.addActionListener(this);
@@ -107,10 +126,10 @@ public class fenetre extends JFrame implements ActionListener {
         try {
             
             JLabelTemperature = new JLabel(DernierePriseT.DerniereTempérature()+"°C");
-            JPanelGraphique.add(LineChart.LineChart("(SELECT left(right(DateHeure,8),5) D,temperature T FROM temperature ORDER BY D DESC LIMIT 6) ORDER BY D ASC;"));
-            JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2, getPreferredSize().height-25));
+            JPanelGraphique.add(LineChart.LineChart("(SELECT right(DateHeure,8) D,temperature T,DateHeure G FROM temperature ORDER BY G DESC LIMIT 6) ORDER BY G ASC;"));
+            JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2-5, getPreferredSize().height-40));
             JPanelCamenbert.add(Camenbert.CreatePie("SELECT count(type) as Nombre,type from stock group by type;"));
-            JPanelCamenbert.setPreferredSize(new Dimension(getPreferredSize().width/2-30, (getPreferredSize().height/3)*2-30));
+            JPanelCamenbert.setPreferredSize(new Dimension(getPreferredSize().width/2-35, (getPreferredSize().height/3)*2-35));
             
         } catch (SQLException ex) {
             ;
@@ -207,7 +226,7 @@ public class fenetre extends JFrame implements ActionListener {
             ajout = dialogue. ShowDialog();
             if(ajout != null){
                try {
-                    DatabaseConnection.Requete("INSERT INTO stock (nom,annee,type) VALUES ("+ajout.getNom()+","+ajout.getAnnee()+",rouge)");
+                    DatabaseConnection.Requete("INSERT INTO stock (nom,annee,type) VALUES ("+ajout.getNom()+","+ajout.getAnnee()+","+ajout.getType()+")");
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
