@@ -11,10 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
@@ -24,10 +27,15 @@ import javax.swing.JTextField;
 public class ajouter_utilisateur extends JDialog implements ActionListener, FocusListener{
     
     private JPanel pano;
-    private JComboBox liste_role;
+    private JRadioButton tous_les_droits;
+    private JRadioButton aucun_droits;
+    private ButtonGroup gp_bouton;
     private JButton valider;
+    private JButton annuler;
     private JTextField nom;
     private JTextField pass_word;
+    private JLabel question_password;
+    private JLabel question_nom;
     
     Utilisateur ut; 
 
@@ -36,30 +44,54 @@ public class ajouter_utilisateur extends JDialog implements ActionListener, Focu
         ut = new Utilisateur();
         
         pano = new JPanel();
-        liste_role = new JComboBox();
         valider = new JButton("valider");
-        nom = new JTextField("entrer un nom d'utilisateur");
+         nom = new JTextField("entrer un nom d'utilisateur");
         pass_word = new JTextField("entrer un mot de passe");
+        
+        annuler = new JButton("annuler");
+        tous_les_droits = new JRadioButton("peut créer un utilisateur");
+        aucun_droits = new JRadioButton("ne peut pas créer un utilisateur");
+        gp_bouton = new ButtonGroup();
+        gp_bouton.add(tous_les_droits);
+        gp_bouton.add(aucun_droits);
+        question_password = new JLabel("mot de passe de l'utilisateur");
+        question_nom = new JLabel("nom de l'utilisateur");
+        
         GridBagConstraints g = new GridBagConstraints();
         
         this.setContentPane(pano);
         pano.setLayout(new GridBagLayout());
         
-        g.gridx = 0;
+        g.fill = GridBagConstraints.BOTH;
+        
+        g.gridx = 1;
         g.gridy = 0;
         pano.add(nom,g);
         
         g.gridy = 1;
-        liste_role.addItem("toto");
-        pano.add(liste_role,g);
-        
-        g.gridy = 2;
         pano.add(pass_word,g);
         
+        g.gridy = 2;
+        pano.add(tous_les_droits,g);
+        
         g.gridy = 3;
+        pano.add(aucun_droits,g);
+        
+        g.gridy = 4;
+        pano.add(pass_word,g);
+        
+        g.gridy = 5;
         pano.add(valider,g);
         
+        g.gridx = 0;
+        g.gridy = 0;
+        pano.add(question_nom,g);
+        
+        g.gridy = 1;
+        pano.add(question_password,g);
+        
         valider.addActionListener(this);
+        annuler.addActionListener(this);
         nom.addFocusListener(this);
         pass_word.addFocusListener(this);
         this.pack();
@@ -69,8 +101,17 @@ public class ajouter_utilisateur extends JDialog implements ActionListener, Focu
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == valider){
             ut.setNom(nom.getText());
-            ut.setRole((String)liste_role.getItemAt(liste_role.getSelectedIndex()));
+            if(gp_bouton.getSelection() == tous_les_droits){
+                ut.setRole(1);
+            }
+            else{
+                ut.setRole(0);
+            }
             ut.setMot_de_passe(pass_word.getText());
+            this.setVisible(false);
+        }
+        if(e.getSource() == annuler){
+            ut = null;
             this.setVisible(false);
         }
     }

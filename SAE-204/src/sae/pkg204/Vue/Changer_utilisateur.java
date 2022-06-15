@@ -28,6 +28,7 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
     private JButton valider;
     private String utilisateur;
     private JPanel pano;
+    private JButton annuler;
     
     public Changer_utilisateur(fenetre fen) throws SQLException {
         
@@ -48,19 +49,31 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
 
         
         this.valider = new JButton("valider");
+        annuler = new JButton("annuler");
+        annuler.addActionListener(this);
         this.valider.addActionListener(this);
         GridBagConstraints g = new GridBagConstraints();
         
-        g.fill = GridBagConstraints.BOTH;
+        g.fill = GridBagConstraints.VERTICAL;
         
+        g.gridwidth = 2;
+        g.weightx = 0.5;
         g.gridx = 0;
         g.gridy = 0;
         pano.add(choix_utilisateur, g);
         
-        g.gridx = 0;
-        g.gridy = 1;
+        g.fill = GridBagConstraints.BOTH;
         
+        g.gridwidth = 1;
+        g.weightx = 0.0;
+        
+        g.gridx = 1;
+        g.gridy = 1;
         pano.add(valider,g);
+        
+        g.gridx = 2;
+        pano.add(annuler,g);
+        
         this.pack();
     }
 

@@ -251,22 +251,25 @@ public class fenetre extends JFrame implements ActionListener {
             ajouter_utilisateur dialogue = new ajouter_utilisateur(this);
             Utilisateur ut = new Utilisateur();
             ut = dialogue.ShowDialog();
-            System.out.println(ut);
-            try {
-                DatabaseConnection.Requete("INSERT INTO `Utilisateur` (`id`, `nom`, `password`, `droit`) VALUES (NULL, "+ut.getNom()+","+ut.getMot_de_passe()+","+ut.getRole()+");");
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            if(ut != null){
+                try {
+                    DatabaseConnection.Requete("INSERT INTO `Utilisateur` (`id`, `nom`, `password`, `droit`) VALUES (NULL, "+ut.getNom()+","+ut.getMot_de_passe()+","+ut.getRole()+");");
+                } catch (SQLException ex) {
+                    Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         if(e.getSource() == supprimer_utilisateur){
             Supprimer_utilisateur dialogue = new Supprimer_utilisateur(this);
             String tmp = dialogue.ShowDialog();
-            System.out.println(tmp);
-            try {
-                DatabaseConnection.Requete("DELETE FROM Utilisateur WHERE `Utilisateur`.`nom` = "+tmp+" ");
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            if(!(tmp.equals(""))){
+                try {
+                    DatabaseConnection.Requete("DELETE FROM Utilisateur WHERE `Utilisateur`.`nom` = "+tmp+" ");
+                } catch (SQLException ex) {
+                    Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            
         }
         if(e.getSource() == quitter){
             this.dispose();

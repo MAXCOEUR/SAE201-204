@@ -12,12 +12,11 @@ package sae.pkg204.Vue;
 public class Utilisateur {
 
     String nom;
-    String role;
+    int role;
     String mot_de_passe;
     
     public Utilisateur() {
         this.nom = new String();
-        this.role = new String();
         this.mot_de_passe = new String();
     }
 
@@ -29,11 +28,11 @@ public class Utilisateur {
         this.nom = nom;
     }
 
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 

@@ -22,6 +22,7 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
 
     private JComboBox choix_utilisateur;
     private JButton valider;
+    private JButton annuler;
     private String utilisateur;
     private JPanel pano;
     
@@ -42,15 +43,31 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
         
         this.valider = new JButton("valider");
         this.valider.addActionListener(this);
+        
+        annuler = new JButton("annuler");
+        annuler.addActionListener(this);
+        
         GridBagConstraints g = new GridBagConstraints();
+        g.fill = GridBagConstraints.VERTICAL;
+        
+        g.gridwidth = 2;
+        g.weightx = 0.5;
+        
         g.gridx = 0;
         g.gridy = 0;
         pano.add(choix_utilisateur, g);
         
-        g.gridx = 0;
-        g.gridy = 1;
+        g.fill = GridBagConstraints.BOTH;
         
+        g.gridwidth = 1;
+        g.weightx = 0.0;
+        
+        g.gridx = 1;
+        g.gridy = 1;
         pano.add(valider,g);
+        
+        g.gridx = 0;
+        pano.add(annuler,g);
         this.pack();
     }
 
@@ -59,6 +76,10 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
         if(e.getSource() == valider){
             utilisateur = (String) choix_utilisateur.getItemAt(choix_utilisateur.getSelectedIndex());
             setVisible(false);
+        }
+        if(e.getSource() == annuler){
+            utilisateur = "";
+            this.setVisible(false);
         }
     }
     
