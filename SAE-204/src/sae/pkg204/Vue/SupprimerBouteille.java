@@ -25,6 +25,7 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
 
     private JPanel pano;
     private JComboBox liste_bouteille;
+    private JComboBox liste_date_bouteille;
     private JTextField nb_Bouteille;
     private JButton valider;
     private Bouteille supp;
@@ -41,24 +42,30 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
         liste_bouteille = new JComboBox();
         nb_Bouteille = new JTextField("nombre de bouteilles à retirer");
         valider = new JButton("valider");
+        liste_date_bouteille = new JComboBox();
         
         GridBagConstraints g = new GridBagConstraints();
         
         g.gridx = 0;
         g.gridy = 0;
         pano.add(liste_bouteille,g);
+        liste_bouteille.addItem("tmp");
         
         g.gridy = 1;
-        pano.add(nb_Bouteille,g);
+        pano.add(liste_date_bouteille,g);
+        liste_date_bouteille.addItem("......");
         
         g.gridy = 2;
+        pano.add(nb_Bouteille,g);
+        
+        g.gridy = 3;
         pano.add(valider,g);
         
         this.pack();
         
         nb_Bouteille.addFocusListener(this);
         valider.addActionListener(this);
-        
+        liste_bouteille.addActionListener(this);
     }
     
     public Bouteille ShowDialog(){
@@ -69,18 +76,18 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == valider){
-            String tmp = (String)liste_bouteille.getSelectedItem();
-            String nom = tmp.substring(0, tmp.length()-5);
-            supp.setNom(nom);
-            supp.setAnnee(tmp.substring(tmp.length()-4));
+            supp.setNom((String)liste_bouteille.getSelectedItem());
+            supp.setAnnee((String)liste_date_bouteille.getSelectedItem());
             try {
                 int nb = Integer.parseInt(nb_Bouteille.getText());
                 supp.setNb_bouteille(nb);
                 this.setVisible(false);
             } catch (NumberFormatException ex) {
                 System.out.println("nombre de bouteille pas au bon format");
-            }
-            
+            } 
+        }
+        if(e.getSource() == liste_bouteille){
+            System.out.println("1");
         }
     }
 

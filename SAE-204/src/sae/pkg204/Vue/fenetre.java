@@ -65,8 +65,6 @@ public class fenetre extends JFrame implements ActionListener {
         changer_utilisateur.addActionListener(this);
         ajouter_utilisateur.addActionListener(this);
         supprimer_utilisateur.addActionListener(this);
-        allumer_database.addActionListener(this);
-        eteindre_database.addActionListener(this);
     }
     
     private void affichage_début(boolean tous_les_droits){
@@ -184,22 +182,6 @@ public class fenetre extends JFrame implements ActionListener {
             System.out.println(tmp);
             try {
                 Application.CreateUser("DROP USER "+tmp+"; ");
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if(e.getSource() == allumer_database){
-            try {
-              DataBaseApp = new Singleton("application");
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if(e.getSource() == eteindre_database){
-            try {
-                DataBaseApp.stop();
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
