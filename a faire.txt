@@ -13,4 +13,4 @@ toutes les fiches dialogues
     ajouter utilisateur
     supp utilisateur
     
-prise de donnees
+selection utilisateur au demarage
