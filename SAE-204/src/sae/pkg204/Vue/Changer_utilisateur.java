@@ -50,6 +50,9 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
         this.valider = new JButton("valider");
         this.valider.addActionListener(this);
         GridBagConstraints g = new GridBagConstraints();
+        
+        g.fill = GridBagConstraints.BOTH;
+        
         g.gridx = 0;
         g.gridy = 0;
         pano.add(choix_utilisateur, g);
