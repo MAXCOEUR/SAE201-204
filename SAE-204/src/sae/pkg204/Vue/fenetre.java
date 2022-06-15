@@ -30,6 +30,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import sae.pkg204.Camenbert;
 import sae.pkg204.DataBase;
 import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
@@ -42,6 +43,9 @@ import sae.pkg204.Utilisateur;
  * @author chama
  */
 public class fenetre extends JFrame implements ActionListener {
+    
+    public static Dimension tailleFenetre;
+    
     Singleton DataBaseApp;
     DataBase Application;
     private JPanel pano = new JPanel();
@@ -66,6 +70,9 @@ public class fenetre extends JFrame implements ActionListener {
     
 
     public fenetre() throws SQLException, ClassNotFoundException {
+        
+        tailleFenetre=getPreferredSize();
+        
         this.Application = new DataBase(DataBaseApp);
         this.setTitle("Domaine Montazac");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,9 +97,10 @@ public class fenetre extends JFrame implements ActionListener {
         
         try {
             JLabelTemperature = new JLabel(DernierePriseT.DerniereTempérature()+"°C");
-            
-            LineChart.LineChart("(SELECT DateHeure D,temperature T FROM temperature ORDER BY D DESC LIMIT 12) ORDER BY D ASC;");
-            
+            JPanelGraphique.add(LineChart.LineChart("(SELECT left(right(DateHeure,8),5) D,temperature T FROM temperature ORDER BY D DESC LIMIT 6) ORDER BY D ASC;"));
+            JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2, getPreferredSize().height-25));
+            JPanelCamenbert.add(Camenbert.CreatePie("SELECT count(type) as Nombre,type from stock group by type;"));
+            JPanelCamenbert.setPreferredSize(new Dimension(getPreferredSize().width/2-30, (getPreferredSize().height/3)*2-30));
             
         } catch (SQLException ex) {
             ;
@@ -103,17 +111,17 @@ public class fenetre extends JFrame implements ActionListener {
         }
         
         JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 100));
-        
+
          
-        try {
-            BufferedImage bufImg = ImageIO.read(new File("image/LineChart.jpeg"));
-            JPanelGraphique.add(new JLabel(new ImageIcon(new ImageIcon(bufImg).getImage().getScaledInstance(getPreferredSize().width/2-10, getPreferredSize().height-20, Image.SCALE_DEFAULT))));
-            
-            BufferedImage bufImg2 = ImageIO.read(new File("image/Pie_Chart.jpeg"));
-            JPanelCamenbert.add(new JLabel(new ImageIcon(new ImageIcon(bufImg2).getImage().getScaledInstance(getPreferredSize().width/2-10, 2*getPreferredSize().height/3-10, Image.SCALE_DEFAULT))));
-        } catch (IOException ex) {
-            ;
-        }
+//        try {
+//            //BufferedImage bufImg = ImageIO.read(new File("image/LineChart.jpeg"));
+//            //JPanelGraphique.add(new JLabel(new ImageIcon(new ImageIcon(bufImg).getImage().getScaledInstance(getPreferredSize().width/2-10, getPreferredSize().height-20, Image.SCALE_DEFAULT))));
+//            
+//            //BufferedImage bufImg2 = ImageIO.read(new File("image/Pie_Chart.jpeg"));
+//            
+//        } catch (IOException ex) {
+//            ;
+//        }
         
         
         menu.add(affiche);
@@ -145,6 +153,7 @@ public class fenetre extends JFrame implements ActionListener {
         g.gridheight =2;
         g.fill = GridBagConstraints.HORIZONTAL;
         JPanelGraphique.setBorder(new LineBorder(Color.BLACK));
+        
         pano.add(JPanelGraphique, g);
         
         g.gridx = 1;
