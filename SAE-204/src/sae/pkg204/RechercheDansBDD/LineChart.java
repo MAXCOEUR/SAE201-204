@@ -43,7 +43,7 @@ public class LineChart {
         
         
         ChartPanel tmp = new ChartPanel(lineChartObject);
-        tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-4, fenetre.tailleFenetre.height-50));
+        tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height-50));
       return  tmp;
     }
 }
