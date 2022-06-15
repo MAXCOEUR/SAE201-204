@@ -4,6 +4,13 @@
  */
 package sae.pkg204.Vue;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.RaspiGpioProvider;
+import com.pi4j.io.gpio.RaspiPinNumberingScheme;
+import com.pi4j.io.i2c.I2CBus;
+import com.pi4j.io.i2c.I2CDevice;
+import com.pi4j.io.i2c.I2CFactory;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -35,6 +42,8 @@ import sae.pkg204.Camenbert;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
+import sae.pkg204.AnalogI2CInput;
+import sae.pkg204.DHT22;
 
 /**
  *
@@ -64,7 +73,12 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
     
 
-    public fenetre() throws SQLException, ClassNotFoundException {
+    public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException {
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        GpioController gpio = GpioFactory.getInstance();
+        
+        I2CBus i2c=I2CFactory.getInstance(0);
+        
         
         tailleFenetre=getPreferredSize();
         
@@ -201,9 +215,15 @@ public class fenetre extends JFrame implements ActionListener {
         }
         if(e.getSource() == supprimer_Bouteille){
             Bouteille supp;
-            SupprimerBouteille dialogue = new SupprimerBouteille(this);
+            SupprimerBouteille dialogue = null;
+            try {
+                dialogue = new SupprimerBouteille(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
             supp = dialogue. ShowDialog();
         }
+        
         if(e.getSource() == general){
             affichageGeneral(true);
         }
@@ -217,13 +237,14 @@ public class fenetre extends JFrame implements ActionListener {
             String tmp = dialogue.ShowDialog();
             System.out.println(tmp);
         }
+        
         if(e.getSource() == ajouter_utilisateur){
             ajouter_utilisateur dialogue = new ajouter_utilisateur(this);
             Utilisateur ut = new Utilisateur();
             ut = dialogue.ShowDialog();
             System.out.println(ut);
             try {
-                DatabaseConnection.Requete("CREATE USER "+ut.getNom()+" IDENTIFIED BY "+ut.getMot_de_passe()+"; \n GRANT"+ ut.getRole()+" TO "+ut.getNom()+"; ");
+                DatabaseConnection.Requete("INSERT INTO `Utilisateur` (`id`, `nom`, `password`, `droit`) VALUES (NULL, "+ut.getNom()+","+ut.getMot_de_passe()+","+ut.getRole()+");");
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -233,7 +254,7 @@ public class fenetre extends JFrame implements ActionListener {
             String tmp = dialogue.ShowDialog();
             System.out.println(tmp);
             try {
-                DatabaseConnection.Requete("DROP USER "+tmp+"; ");
+                DatabaseConnection.Requete("DELETE FROM Utilisateur WHERE `Utilisateur`.`nom` = "+tmp+" ");
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
