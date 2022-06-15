@@ -47,11 +47,16 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem allumer_database;
     private JMenuItem eteindre_database;
     
+    
 
     public fenetre() throws SQLException, ClassNotFoundException {
         this.Application = new DataBase(DataBaseApp);
-        this.setTitle("tmp");
+        this.setTitle("gestionnaire de cave à vin");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Changer_utilisateur JDialogDebut = new Changer_utilisateur(this);
+        String ut = JDialogDebut.ShowDialog();
+        
         
         affichage_début(true);
         
