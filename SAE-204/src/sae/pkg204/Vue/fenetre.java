@@ -39,15 +39,12 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenu affiche;
     private JMenu Modifier;
     private JMenu utilisateur;
-    private JMenu database;
     private JMenuItem general;
     private JMenuItem ajouter_Bouteille;
     private JMenuItem supprimer_Bouteille;
     private JMenuItem ajouter_utilisateur;
     private JMenuItem supprimer_utilisateur;
     private JMenuItem changer_utilisateur;
-    private JMenuItem allumer_database;
-    private JMenuItem eteindre_database;
     
     
 
@@ -96,14 +93,6 @@ public class fenetre extends JFrame implements ActionListener {
         this.utilisateur.add(changer_utilisateur);
         menu.add(utilisateur);
         affiche.add(general);
-        
-        database = new JMenu("Database");
-        allumer_database = new JMenuItem("Allumer la database");
-        eteindre_database = new JMenuItem("Eteindre la database");
-        
-        menu.add(database);
-        database.add(allumer_database);
-        database.add(eteindre_database);
         
         this.pano = new JPanel();
         
