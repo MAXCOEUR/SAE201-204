@@ -17,7 +17,9 @@ import sae.pkg204.Vue.fenetre;
 public class LineChart {
 
    public static ChartPanel LineChart(String query) throws Exception {
+       
        Statement s = DatabaseConnection.getConnection();
+       
        DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
        
        ResultSet resultSet = s.executeQuery(query);
