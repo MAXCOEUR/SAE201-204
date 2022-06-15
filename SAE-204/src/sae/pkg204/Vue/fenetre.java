@@ -75,10 +75,6 @@ public class fenetre extends JFrame implements ActionListener {
     
 
     public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException {
-        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
-        GpioController gpio = GpioFactory.getInstance();
-        
-        I2CBus i2c=I2CFactory.getInstance(0);
         
         
         tailleFenetre=getPreferredSize();

@@ -87,8 +87,12 @@ public class ajouter_utilisateur extends JDialog implements ActionListener, Focu
         g.gridy = 0;
         pano.add(question_nom,g);
         
-        g.gridy = 1;
+        g.gridy = 4;
         pano.add(question_password,g);
+        
+        g.gridx = 0;
+        g.gridy = 5;
+        pano.add(annuler,g);
         
         valider.addActionListener(this);
         annuler.addActionListener(this);

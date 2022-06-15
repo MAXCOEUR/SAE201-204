@@ -83,6 +83,9 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
             utilisateur = (String) choix_utilisateur.getItemAt(choix_utilisateur.getSelectedIndex());
             setVisible(false);
         }
+        if (e.getSource() == annuler) {
+            setVisible(false);
+        }
     }
     
     public String ShowDialog(){
