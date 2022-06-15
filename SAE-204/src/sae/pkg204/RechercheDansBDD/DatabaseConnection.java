@@ -40,5 +40,8 @@ public class DatabaseConnection {
             }
             return st;
 	}
+        public static ResultSet Requete(String r) throws SQLException{
+            return st.executeQuery(r);
+        }
 }
 

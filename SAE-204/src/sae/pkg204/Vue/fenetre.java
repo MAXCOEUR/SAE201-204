@@ -74,7 +74,8 @@ public class fenetre extends JFrame implements ActionListener {
         
         Changer_utilisateur JDialogDebut = new Changer_utilisateur(this);
         String ut = JDialogDebut.ShowDialog();
-
+        
+        
         affichageGeneral(true);
         
         ajouter_Bouteille.addActionListener(this);
@@ -92,6 +93,7 @@ public class fenetre extends JFrame implements ActionListener {
         JPanelGraphique.removeAll();
         
         try {
+            
             JLabelTemperature = new JLabel(DernierePriseT.DerniereTempérature()+"°C");
             JPanelGraphique.add(LineChart.LineChart("(SELECT left(right(DateHeure,8),5) D,temperature T FROM temperature ORDER BY D DESC LIMIT 6) ORDER BY D ASC;"));
             JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2, getPreferredSize().height-25));
@@ -191,6 +193,11 @@ public class fenetre extends JFrame implements ActionListener {
             Bouteille ajout;
             AjouterBouteille dialogue = new AjouterBouteille(this);
             ajout = dialogue. ShowDialog();
+            try {
+                DatabaseConnection.Requete("INSERT INTO stock (nom,annee,type) VALUES ("+ajout.getNom()+","+ajout.getAnnee()+",rouge)");
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(e.getSource() == supprimer_Bouteille){
             Bouteille supp;
@@ -201,7 +208,12 @@ public class fenetre extends JFrame implements ActionListener {
             affichageGeneral(true);
         }
         if(e.getSource() == changer_utilisateur){
-            Changer_utilisateur dialogue = new Changer_utilisateur(this);
+            Changer_utilisateur dialogue = null;
+            try {
+                dialogue = new Changer_utilisateur(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
             String tmp = dialogue.ShowDialog();
             System.out.println(tmp);
         }
@@ -211,8 +223,7 @@ public class fenetre extends JFrame implements ActionListener {
             ut = dialogue.ShowDialog();
             System.out.println(ut);
             try {
-                Statement s = DatabaseConnection.getConnection();
-                ResultSet resultSet = s.executeQuery("CREATE USER "+ut.getNom()+" IDENTIFIED BY "+ut.getMot_de_passe()+"; \n GRANT"+ ut.getRole()+" TO "+ut.getNom()+"; ");
+                DatabaseConnection.Requete("CREATE USER "+ut.getNom()+" IDENTIFIED BY "+ut.getMot_de_passe()+"; \n GRANT"+ ut.getRole()+" TO "+ut.getNom()+"; ");
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -222,8 +233,7 @@ public class fenetre extends JFrame implements ActionListener {
             String tmp = dialogue.ShowDialog();
             System.out.println(tmp);
             try {
-                Statement s = DatabaseConnection.getConnection();
-                ResultSet resultSet = s.executeQuery("DROP USER "+tmp+"; ");
+                DatabaseConnection.Requete("DROP USER "+tmp+"; ");
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }

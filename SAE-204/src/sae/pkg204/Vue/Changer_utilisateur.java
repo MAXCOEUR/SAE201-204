@@ -9,11 +9,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
  *
@@ -26,7 +29,7 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
     private String utilisateur;
     private JPanel pano;
     
-    public Changer_utilisateur(fenetre fen) {
+    public Changer_utilisateur(fenetre fen) throws SQLException {
         
         super(fen, true);
         utilisateur = new String();
@@ -37,9 +40,12 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
         this.pano.setLayout(new GridBagLayout());
         
         this.choix_utilisateur = new JComboBox();
-        choix_utilisateur.addItem("Admin");
-        choix_utilisateur.addItem("user01");
-        choix_utilisateur.addItem("Bob");
+        DatabaseConnection.getConnection();
+        ResultSet result = DatabaseConnection.Requete("Select * from Utilisateur");
+       while (result.next()) {
+            choix_utilisateur.addItem(result.getString("nom"));        
+       }
+
         
         this.valider = new JButton("valider");
         this.valider.addActionListener(this);
