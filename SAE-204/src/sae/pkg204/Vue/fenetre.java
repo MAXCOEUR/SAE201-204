@@ -65,8 +65,6 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem ajouter_utilisateur = new JMenuItem("Ajouter un utilisateur");
     private JMenuItem supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
     private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
-    private JMenuItem allumer_database = new JMenuItem("Allumer la database");
-    private JMenuItem eteindre_database = new JMenuItem("Eteindre la database");
     
 
     public fenetre() throws SQLException, ClassNotFoundException {
@@ -77,6 +75,9 @@ public class fenetre extends JFrame implements ActionListener {
         this.setTitle("Domaine Montazac");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        Changer_utilisateur JDialogDebut = new Changer_utilisateur(this);
+        String ut = JDialogDebut.ShowDialog();
+
         affichageGeneral(true);
         
         ajouter_Bouteille.addActionListener(this);
@@ -85,8 +86,6 @@ public class fenetre extends JFrame implements ActionListener {
         changer_utilisateur.addActionListener(this);
         ajouter_utilisateur.addActionListener(this);
         supprimer_utilisateur.addActionListener(this);
-        allumer_database.addActionListener(this);
-        eteindre_database.addActionListener(this);
     }
     
     private void affichageGeneral(boolean tous_les_droits){
@@ -137,7 +136,6 @@ public class fenetre extends JFrame implements ActionListener {
         menu.add(database);
             database.add(allumer_database);
             database.add(eteindre_database);
-        
         
         
         
@@ -195,10 +193,14 @@ public class fenetre extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==ajouter_Bouteille){
-            System.out.println(1);
+            Bouteille ajout;
+            AjouterBouteille dialogue = new AjouterBouteille(this);
+            ajout = dialogue. ShowDialog();
         }
         if(e.getSource() == supprimer_Bouteille){
-            System.out.println(2);
+            Bouteille supp;
+            SupprimerBouteille dialogue = new SupprimerBouteille(this);
+            supp = dialogue. ShowDialog();
         }
         if(e.getSource() == general){
             affichageGeneral(true);
@@ -225,22 +227,6 @@ public class fenetre extends JFrame implements ActionListener {
             System.out.println(tmp);
             try {
                 Application.CreateUser("DROP USER "+tmp+"; ");
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if(e.getSource() == allumer_database){
-            try {
-              DataBaseApp = new Singleton();
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if(e.getSource() == eteindre_database){
-            try {
-                DataBaseApp.stop();
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
