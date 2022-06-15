@@ -23,31 +23,7 @@ import org.jfree.data.jdbc.JDBCPieDataset;
 public class SAE204 {
 
 public static void main( String[ ] args )throws Exception {
-      
-      
-      /* Create MySQL Database Connection */
-      
-      
-      
-      
-
-//      
-//
-//      
-//      Camenbert Pie = new Camenbert("select count(p.genre),p.genre as \"Genre\" from Professeurs p\n" +"group by genre;");
-//      Pie.CreatePie("genre", "count(p.genre)", "Groupes");
-
-//      Courbe C = new Courbe("select *,count(idSeance) as NbSalleUtiliser from Seances\n" +"natural join Utilise\n" +"group by idSalle");
-
-
-//      TimeSeriesChart T = new TimeSeriesChart("select *,count(idSeance) as NbSalleUtiliser from Seances\n" +"natural join Utilise\n" +"group by idSalle");
-//      T.CreateTimeSeries();
-//      
-//      C.CreateCourbe( "idSalle","NbSalleUtiliser", "Salles", 100);
-//      
-
-   
-
+    
     fenetre fen = new fenetre();
     fen.setVisible(true);
    }

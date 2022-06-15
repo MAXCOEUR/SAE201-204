@@ -4,6 +4,7 @@
  */
 package sae.pkg204.Vue;
 
+import java.sql.ResultSet;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,11 +12,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
  *
@@ -30,9 +36,8 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
     private JButton valider;
     private Bouteille supp;
 
-    public SupprimerBouteille(Frame owner) {
+    public SupprimerBouteille(Frame owner) throws SQLException {
         super(owner, true);
-        
         supp = new Bouteille();
         
         pano = new JPanel();
@@ -45,6 +50,14 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
         liste_date_bouteille = new JComboBox();
         
         GridBagConstraints g = new GridBagConstraints();
+        
+        Statement s = DatabaseConnection.getConnection();
+        
+        ResultSet resultSet = s.executeQuery("select distinct(nom) N from stock;");
+        
+        while (resultSet.next()) {
+            liste_bouteille.addItem(resultSet.getString("N"));
+        }
         
         g.gridx = 0;
         g.gridy = 0;
@@ -87,7 +100,15 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
             } 
         }
         if(e.getSource() == liste_bouteille){
-            System.out.println("1");
+            Statement s = DatabaseConnection.getConnection();
+            try {
+                ResultSet resultSet = s.executeQuery("SELECT distinct (date) D from stock where nom like \""+(String)liste_bouteille.getSelectedItem()+"\";" );
+                while (resultSet.next()) {
+                    liste_date_bouteille.addItem(resultSet.getString("D"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(SupprimerBouteille.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
