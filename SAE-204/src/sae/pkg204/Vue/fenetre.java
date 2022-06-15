@@ -212,7 +212,7 @@ public class fenetre extends JFrame implements ActionListener {
     @Override
     public Dimension getPreferredSize() {
         Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        tailleEcran.height-=50;
+        tailleEcran.height-=40;
         return tailleEcran;
     }
     
