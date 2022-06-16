@@ -5,16 +5,6 @@
  */
 package sae.pkg204;
 import sae.pkg204.Vue.fenetre;
-import java.io.File;
-import java.sql.*;  
-import java.sql.SQLException;
-import static javax.management.remote.JMXConnectorFactory.connect;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
-import org.jfree.data.jdbc.JDBCPieDataset;
 
 /**
  *

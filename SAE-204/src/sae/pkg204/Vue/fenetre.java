@@ -49,6 +49,7 @@ import sae.pkg204.RechercheDansBDD.DernierePriseT;
 import sae.pkg204.AnalogI2CInput;
 import sae.pkg204.DHT22;
 import sae.pkg204.SAE204;
+import sae.pkg204.TempEtHum;
 
 /**
  *
@@ -62,6 +63,7 @@ public class fenetre extends JFrame implements ActionListener {
 
     private JPanel pano = new JPanel();
     private JLabel JLabelTemperature; //derneir temperature enrtegistrer
+    private JLabel JLabelHumidite;
     private JPanel JPanelGraphique = new JPanel(); // le graph des température sur le temp
     private JPanel JPanelCamenbert = new JPanel(); // de type de vin
     private JMenuBar menu = new JMenuBar();
@@ -125,10 +127,11 @@ public class fenetre extends JFrame implements ActionListener {
         JPanelGraphique.removeAll();
         
         try {
+            TempEtHum TH=DernierePriseT.DerniereTempérature();
+            JLabelTemperature = new JLabel(TH.getTemperature()+"°C");
+            JLabelHumidite = new JLabel(TH.getHumidide()+"%");
             
-            JLabelTemperature = new JLabel(DernierePriseT.DerniereTempérature()+"°C");
-            
-            ChartPanel tmp = LineChart.LineChart("(SELECT right(DateHeure,8)  D,temperature T,DateHeure G FROM temperature ORDER BY G DESC LIMIT 6) ORDER BY G ASC;");
+            ChartPanel tmp = LineChart.LineChart("(SELECT DateHeure  D,temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;");
             tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height-50));
             JPanelGraphique.add(tmp);
             JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2-5, getPreferredSize().height-40));
@@ -145,7 +148,7 @@ public class fenetre extends JFrame implements ActionListener {
         } catch (Exception ex) {
             ;
         }
-        JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
+        
         
         
         menu.add(affiche);
@@ -171,24 +174,33 @@ public class fenetre extends JFrame implements ActionListener {
         
         g.gridx = 0;
         g.gridy = 0;
-        g.gridheight =2;
+        g.gridheight =3;
         g.fill = GridBagConstraints.HORIZONTAL;
         JPanelGraphique.setBorder(new LineBorder(Color.BLACK));
         
         pano.add(JPanelGraphique, g);
         
         g.gridx = 1;
-        g.gridy = 1;
+        g.gridy = 2;
         g.gridheight =1;
         JPanelCamenbert.setBorder(new LineBorder(Color.BLACK));
         pano.add(JPanelCamenbert, g);
+        
+        JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
         
         g.gridx = 1;
         g.gridy = 0;
         g.gridheight =1;
         g.fill = GridBagConstraints.VERTICAL;
-        JLabelTemperature.setBorder(new LineBorder(Color.BLACK));
         pano.add(JLabelTemperature, g);
+        
+        JLabelHumidite.setFont(new Font("Serif", Font.BOLD, 60));
+        
+        g.gridx = 1;
+        g.gridy = 1;
+        g.gridheight =1;
+        g.fill = GridBagConstraints.VERTICAL;
+        pano.add(JLabelHumidite, g);
         
         if(tous_les_droits == true){
             utilisateur.add(ajouter_utilisateur);

@@ -7,25 +7,25 @@ package sae.pkg204.RechercheDansBDD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import sae.pkg204.TempEtHum;
 
 /**
  *
  * @author Maxen
  */
 public class DernierePriseT {
-    public static double DerniereTempérature() throws SQLException{
+    public static TempEtHum DerniereTempérature() throws SQLException{
         Statement s = DatabaseConnection.getConnection();
         
-        ResultSet resultSet = s.executeQuery("SELECT ROUND(temperature,1) temperature from temperature where DateHeure in (SELECT max(DateHeure) from temperature);");
+        ResultSet resultSet = s.executeQuery("SELECT ROUND(temperature,1) temperature,ROUND(humidite,1) humidite  from temperature where DateHeure in (SELECT max(DateHeure) from temperature);");
         
-        double tmp=0.0;
+        double T=0.0;
+        double H=0.0;
         while (resultSet.next()) {
-            tmp= Double.parseDouble(resultSet.getString("temperature"));
+            T= Double.parseDouble(resultSet.getString("temperature"));
+            H= Double.parseDouble(resultSet.getString("humidite"));
         }
-        return tmp;
-        
-        
-        
+        return new TempEtHum(T, H);
     }
     
 }

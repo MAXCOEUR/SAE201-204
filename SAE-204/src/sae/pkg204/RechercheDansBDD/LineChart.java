@@ -14,6 +14,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.Vue.fenetre;
 
+// getTimeInMillis
+
 public class LineChart {
 
    public static ChartPanel LineChart(String query) throws Exception {
@@ -26,7 +28,8 @@ public class LineChart {
         
         
         while (resultSet.next()) {
-            line_chart_dataset.addValue( Double.parseDouble(resultSet.getString("T")) , "" , resultSet.getString("D"));
+            line_chart_dataset.addValue( Double.parseDouble(resultSet.getString("T")) , "Temperature" , resultSet.getString("D"));
+            line_chart_dataset.addValue( Double.parseDouble(resultSet.getString("H")) , "Humidite" , resultSet.getString("D"));
         }
 
       JFreeChart lineChartObject = ChartFactory.createLineChart(
@@ -34,7 +37,10 @@ public class LineChart {
          "",
          "",
          line_chart_dataset,PlotOrientation.VERTICAL,
-         false,false,false);
+         true,false,false);
+      
+      
+      
 //      int width = 640;    /* Width of the image */
 //      int height = 480;   /* Height of the image */ 
 //      File lineChart = new File( "image/LineChart.jpeg" ); 
