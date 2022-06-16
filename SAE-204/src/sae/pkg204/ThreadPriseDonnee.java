@@ -25,13 +25,13 @@ public class ThreadPriseDonnee extends Thread {
     public void run(){
         while (true) {
             try {
-                
+                long lStartTime = System.currentTimeMillis();
                 AnalogI2CInput an = new AnalogI2CInput(0);
                 DHT22 dht22 = new DHT22(5);
                 TempEtHum transf = dht22.getTemperatureAndHumidity();
                 DatabaseConnection.Requete("INSERT INTO temperature (DateHeure, temperature, humidite) VALUES (now(), '"+transf.getTemperature()+"', '"+transf.getHumidide()+"');");
                 
-                sleep(5000);
+                
                 try {
                     fen.affichageGeneral(true);
                 } catch (Exception e) {
@@ -39,6 +39,16 @@ public class ThreadPriseDonnee extends Thread {
                 }
                 
                 System.out.println(transf.getTemperature()+" "+transf.getHumidide());
+                
+                long lEndTime = System.currentTimeMillis();
+                if (5000- lEndTime-lStartTime>=0) {
+                    sleep(5000- lEndTime-lStartTime);
+                }
+                else{
+                    ;
+                }
+                
+                
                 
             } catch (IOException ex) {
                 Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
