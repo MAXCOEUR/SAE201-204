@@ -9,10 +9,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
  *
@@ -26,7 +31,7 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
     private String utilisateur;
     private JPanel pano;
     
-    public Supprimer_utilisateur(fenetre fen) {
+    public Supprimer_utilisateur(fenetre fen) throws SQLException {
         
         super(fen, true);
         utilisateur = new String();
@@ -37,9 +42,14 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
         this.pano.setLayout(new GridBagLayout());
         
         this.choix_utilisateur = new JComboBox();
-        choix_utilisateur.addItem("Admin");
-        choix_utilisateur.addItem("user01");
-        choix_utilisateur.addItem("Bob");
+        
+        Statement s = DatabaseConnection.getConnection();
+        
+        ResultSet resultSet = s.executeQuery("select nom from Utilisateur");
+        
+        while (resultSet.next()) {
+            choix_utilisateur.addItem(resultSet.getString("nom"));
+        }
         
         this.valider = new JButton("valider");
         this.valider.addActionListener(this);
@@ -74,8 +84,15 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == valider){
-            utilisateur = (String) choix_utilisateur.getItemAt(choix_utilisateur.getSelectedIndex());
-            setVisible(false);
+            int result = JOptionPane.showConfirmDialog(this, "voulez vous supprimer cette utilisateur? ");
+            if (result == 0){
+                utilisateur = (String) choix_utilisateur.getItemAt(choix_utilisateur.getSelectedIndex());
+                setVisible(false);
+            }
+            else if (result == 2){
+                utilisateur = "";
+                this.setVisible(false);
+            }            
         }
         if(e.getSource() == annuler){
             utilisateur = "";

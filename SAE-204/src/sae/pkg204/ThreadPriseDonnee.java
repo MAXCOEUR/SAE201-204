@@ -49,7 +49,6 @@ public class ThreadPriseDonnee extends Thread {
                 }
                 else{
                     listeDate[i] = timeNow.getYear()+"-"+timeNow.getMonthValue()+"-"+timeNow.getDayOfMonth()+" "+timeNow.getHour()+":"+timeNow.getMinute()+":"+((timeNow.getSecond()+i)%60);
-                }
                 
                 
                 
@@ -90,7 +89,7 @@ public class ThreadPriseDonnee extends Thread {
                     query+=";";
                     DatabaseConnection.Requete(query);
                     
-                    fen.affichageGeneral(true);
+                    fen.affichage(fen.page);
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }

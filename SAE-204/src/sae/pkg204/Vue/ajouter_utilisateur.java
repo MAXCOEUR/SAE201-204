@@ -132,6 +132,16 @@ public class ajouter_utilisateur extends JDialog implements ActionListener, Focu
 
     @Override
     public void focusLost(FocusEvent e) {
+        if(e.getSource() == nom){
+            if(nom.getText().equals("")){
+                nom.setText("nom de l'utilisateur");
+            }
+        }
+        if(e.getSource() == pass_word){
+            if(pass_word.getText().equals("")){
+                pass_word.setText("mot de passe de l'utilisateur");
+            }
+        }
     }
 
     public Utilisateur ShowDialog(){
