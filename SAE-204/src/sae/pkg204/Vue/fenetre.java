@@ -57,7 +57,8 @@ import sae.pkg204.SAE204;
 public class fenetre extends JFrame implements ActionListener {
     
     public static Dimension tailleFenetre;
-    
+    private boolean droit;
+    public static int page=0;
     
 
     private JPanel pano = new JPanel();
@@ -79,7 +80,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem quitter = new JMenuItem("Quitter");
     
 
-    public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException {
+    public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException, Exception {
 //        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
 //        GpioController gpio = GpioFactory.getInstance();
         
@@ -100,8 +101,9 @@ public class fenetre extends JFrame implements ActionListener {
         
         Changer_utilisateur JDialogDebut = new Changer_utilisateur(this);
         String ut = JDialogDebut.ShowDialog();
+        droit=JDialogDebut.getRole();
               
-        affichageGeneral(true);
+        affichage(1);
         
         if (device.isFullScreenSupported()) {
             device.setFullScreenWindow(this);
@@ -123,6 +125,8 @@ public class fenetre extends JFrame implements ActionListener {
         pano.removeAll();
         JPanelCamenbert.removeAll();
         JPanelGraphique.removeAll();
+        utilisateur.removeAll();
+
         
         try {
             
@@ -202,6 +206,7 @@ public class fenetre extends JFrame implements ActionListener {
         pano.updateUI();
         JPanelGraphique.updateUI();
         JPanelCamenbert.updateUI();
+        utilisateur.updateUI();
         
         
     }
@@ -214,7 +219,32 @@ public class fenetre extends JFrame implements ActionListener {
         return tailleEcran;
     }
     
-    
+    public void affichage(int affiche) throws Exception{
+        page=affiche;
+        switch(affiche)
+        {
+        case 1:
+            affichageGeneral(droit);
+        break;
+        case 2:
+            JPanelGraphique.removeAll();
+            JLabelTemperature.setText(DernierePriseT.DerniereTempérature()+"°C");
+            
+            ChartPanel tmp = LineChart.LineChart("(SELECT right(DateHeure,8)  D,temperature T,DateHeure G FROM temperature ORDER BY G DESC LIMIT 6) ORDER BY G ASC;");
+            tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height-50));
+            JPanelGraphique.add(tmp);
+            JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2-5, getPreferredSize().height-40));
+            JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
+            pano.updateUI();
+            JPanelGraphique.updateUI();
+        break;
+        case 3:
+            
+
+        default:
+        //default statement or expression;
+        }
+    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -255,17 +285,24 @@ public class fenetre extends JFrame implements ActionListener {
         }
         
         if(e.getSource() == general){
+            try {
+                affichage(1);
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
             affichageGeneral(true);
         }
         if(e.getSource() == changer_utilisateur){
             Changer_utilisateur dialogue = null;
             try {
-                dialogue = new Changer_utilisateur(this);
-            } catch (SQLException ex) {
-                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            dialogue = new Changer_utilisateur(this);
+            droit=dialogue.getRole();
             String tmp = dialogue.ShowDialog();
             System.out.println(tmp);
+            affichage(1);
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         if(e.getSource() == ajouter_utilisateur){
@@ -274,14 +311,20 @@ public class fenetre extends JFrame implements ActionListener {
             ut = dialogue.ShowDialog();
             if(ut != null){
                 try {
-                    DatabaseConnection.Requete("INSERT INTO `Utilisateur` (`id`, `nom`, `password`, `droit`) VALUES (NULL, "+ut.getNom()+","+ut.getMot_de_passe()+","+ut.getRole()+");");
+                    DatabaseConnection.Requete("INSERT INTO `Utilisateur` (`id`, `nom`, `password`, `droit`) VALUES (NULL, '"+ut.getNom()+"', '"+ut.getMot_de_passe()+"', '"+ut.role+"')");
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
+        
         if(e.getSource() == supprimer_utilisateur){
-            Supprimer_utilisateur dialogue = new Supprimer_utilisateur(this);
+            Supprimer_utilisateur dialogue = null;
+            try {
+                dialogue = new Supprimer_utilisateur(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
             String tmp = dialogue.ShowDialog();
             if(!(tmp.equals(""))){
                 try {

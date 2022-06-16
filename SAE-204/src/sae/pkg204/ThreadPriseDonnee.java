@@ -33,7 +33,7 @@ public class ThreadPriseDonnee extends Thread {
                 
                 sleep(5000);
                 try {
-                    fen.affichageGeneral(true);
+                    fen.affichage(fen.page);
                 } catch (Exception e) {
                     System.out.println(e);;
                 }
