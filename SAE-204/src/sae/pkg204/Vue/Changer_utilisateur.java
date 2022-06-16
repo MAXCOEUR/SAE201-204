@@ -141,5 +141,15 @@ public class Changer_utilisateur extends JDialog implements ActionListener, Focu
                 question_password.setText("password");
             }
         }
+
+    
+    public boolean getRole() throws SQLException{
+        DatabaseConnection.getConnection();
+        ResultSet result = DatabaseConnection.Requete("SELECT droit FROM `Utilisateur` WHERE nom like \""+utilisateur+"\";");
+        boolean t=false ;
+        while (result.next()){
+            t=result.getInt("droit")==1;
+        }
+        return (t);
     }
 }
