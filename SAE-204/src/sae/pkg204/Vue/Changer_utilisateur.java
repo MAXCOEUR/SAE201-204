@@ -15,7 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
@@ -29,6 +31,9 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
     private String utilisateur;
     private JPanel pano;
     private JButton annuler;
+    private JTextField password;
+    private JLabel question_password;
+    
     
     public Changer_utilisateur(fenetre fen) throws SQLException {
         
@@ -43,9 +48,9 @@ public class Changer_utilisateur extends JDialog implements ActionListener{
         this.choix_utilisateur = new JComboBox();
         DatabaseConnection.getConnection();
         ResultSet result = DatabaseConnection.Requete("Select * from Utilisateur");
-       while (result.next()) {
+        while (result.next()) {
             choix_utilisateur.addItem(result.getString("nom"));        
-       }
+        }
 
         
         this.valider = new JButton("valider");
