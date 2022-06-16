@@ -31,22 +31,59 @@ public class LineChart {
             line_chart_dataset.addValue( Double.parseDouble(resultSet.getString("T")) , "Temperature" , resultSet.getString("D"));
             line_chart_dataset.addValue( Double.parseDouble(resultSet.getString("H")) , "Humidite" , resultSet.getString("D"));
         }
-
+//        line_chart_dataset.removeRow(10);
       JFreeChart lineChartObject = ChartFactory.createLineChart(
-         "",
+         "Temperature&Humidite",
          "",
          "",
          line_chart_dataset,PlotOrientation.VERTICAL,
-         true,false,false);
-      
-      
-      
-//      int width = 640;    /* Width of the image */
-//      int height = 480;   /* Height of the image */ 
-//      File lineChart = new File( "image/LineChart.jpeg" ); 
-//      ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, width ,height);
+         true,false,true);
+      return  new ChartPanel(lineChartObject);
+    }
+   
+   public static ChartPanel LineChartTemperature(String query,float min) throws Exception {
+       
+        Statement s = DatabaseConnection.getConnection();
+
+        DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
+
+        ResultSet resultSet = s.executeQuery(query);
+
+        while (resultSet.next()) {
+            
+            line_chart_dataset.addValue( (resultSet.getFloat("T")-min) , "Temperature" , resultSet.getString("D"));
+        }
         
+//        line_chart_dataset.removeRow(10);
+      JFreeChart lineChartObject = ChartFactory.createLineChart(
+         "Temperature",
+         "",
+         "",
+         line_chart_dataset,PlotOrientation.VERTICAL,
+         false,false,true);
+      return  new ChartPanel(lineChartObject);
+    }
+   
+   public static ChartPanel LineChartHumidite(String query,float min) throws Exception {
+       
+        Statement s = DatabaseConnection.getConnection();
+
+        DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
+
+        ResultSet resultSet = s.executeQuery(query);
+
+        while (resultSet.next()) {
+            
+            line_chart_dataset.addValue( (resultSet.getFloat("H")-min) , "Humidite" , resultSet.getString("D"));
+        }
         
+//        line_chart_dataset.removeRow(10);
+      JFreeChart lineChartObject = ChartFactory.createLineChart(
+         "Humidite",
+         "",
+         "",
+         line_chart_dataset,PlotOrientation.VERTICAL,
+         false,false,true);
       return  new ChartPanel(lineChartObject);
     }
 }

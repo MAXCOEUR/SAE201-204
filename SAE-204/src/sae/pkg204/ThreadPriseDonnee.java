@@ -59,7 +59,7 @@ public class ThreadPriseDonnee extends Thread {
                 
                 
                 
-                sleep(time/nbrIterationDansTime);
+                sleep(time/nbrIterationDansTime+(nbrIterationDansTime*10+1));
                 
                 
             }
@@ -88,9 +88,9 @@ public class ThreadPriseDonnee extends Thread {
                     query = query.substring(0, query.length()-1);
                     query+=";";
                     DatabaseConnection.Requete(query);
-                    String query2 ="DELETE from temperature where 1000<(Select count(DateHeure) from temperature) LIMIT 500;";
+                    String query2 ="DELETE from temperature where 2000<(Select count(DateHeure) from temperature) LIMIT 500;";
                     DatabaseConnection.Requete(query2);
-                    fen.affichage(fen.page);
+                    fen.affichage();
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
