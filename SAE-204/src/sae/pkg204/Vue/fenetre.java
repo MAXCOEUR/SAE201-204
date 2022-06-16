@@ -293,18 +293,19 @@ public class fenetre extends JFrame implements ActionListener {
             affichageGeneral(true);
         }
         if(e.getSource() == changer_utilisateur){
-            if(!(tmp.equals(""))){
-                Changer_utilisateur dialogue = null;
-                try {
-                    dialogue = new Changer_utilisateur(this);
+            
+            Changer_utilisateur dialogue = null;
+            try {
+                dialogue = new Changer_utilisateur(this);
+                String tmp = dialogue.ShowDialog();
+                if(!(tmp.equals(""))){
                     droit=dialogue.getRole();
-                    String tmp = dialogue.ShowDialog();
                     affichage(1);
-                } catch (Exception ex) {
-                    Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
-        }
-        
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
         if(e.getSource() == ajouter_utilisateur){
             ajouter_utilisateur dialogue = new ajouter_utilisateur(this);
             Utilisateur ut = new Utilisateur();

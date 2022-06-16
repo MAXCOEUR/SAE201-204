@@ -141,7 +141,7 @@ public class Changer_utilisateur extends JDialog implements ActionListener, Focu
                 question_password.setText("password");
             }
         }
-
+    }
     
     public boolean getRole() throws SQLException{
         DatabaseConnection.getConnection();
