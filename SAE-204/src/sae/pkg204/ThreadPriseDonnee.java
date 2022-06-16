@@ -62,7 +62,7 @@ public class ThreadPriseDonnee extends Thread {
                 sleep(time/nbrIterationDansTime);
                 
                 
-                
+            }
             } catch (IOException ex) {
                 Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
             } catch (I2CFactory.UnsupportedBusNumberException ex) {
@@ -92,6 +92,8 @@ public class ThreadPriseDonnee extends Thread {
                     fen.affichage(fen.page);
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
             }

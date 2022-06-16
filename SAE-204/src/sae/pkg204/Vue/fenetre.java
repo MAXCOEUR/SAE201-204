@@ -59,7 +59,7 @@ public class fenetre extends JFrame implements ActionListener {
     
     public static Dimension tailleFenetre;
     private boolean droit;
-    public static int page=0;
+    public static int page=1;
     
 
     private JPanel pano = new JPanel();
@@ -105,7 +105,7 @@ public class fenetre extends JFrame implements ActionListener {
         String ut = JDialogDebut.ShowDialog();
         droit=JDialogDebut.getRole();
               
-        affichage(1);
+        affichage(page);
         
         if (device.isFullScreenSupported()) {
             device.setFullScreenWindow(this);
@@ -232,23 +232,13 @@ public class fenetre extends JFrame implements ActionListener {
     }
     
     public void affichage(int affiche) throws Exception{
-        page=affiche;
         switch(affiche)
         {
         case 1:
             affichageGeneral(droit);
         break;
         case 2:
-            JPanelGraphique.removeAll();
-            JLabelTemperature.setText(DernierePriseT.DerniereTempérature()+"°C");
-            
-            ChartPanel tmp = LineChart.LineChart("(SELECT right(DateHeure,8)  D,temperature T,DateHeure G FROM temperature ORDER BY G DESC LIMIT 6) ORDER BY G ASC;");
-            tmp.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height-50));
-            JPanelGraphique.add(tmp);
-            JPanelGraphique.setPreferredSize(new Dimension(getPreferredSize().width/2-5, getPreferredSize().height-40));
-            JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
-            pano.updateUI();
-            JPanelGraphique.updateUI();
+            ;
         break;
         case 3:
             
@@ -273,11 +263,13 @@ public class fenetre extends JFrame implements ActionListener {
                    Query = Query.substring(0, Query.length()-1);
                    Query+=";";
                    DatabaseConnection.Requete(Query);
+                   affichage(page);
                 } catch (SQLException ex) {
+                    Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            affichageGeneral(true);
         }
         if(e.getSource() == supprimer_Bouteille){
             Bouteille supp;
@@ -290,19 +282,23 @@ public class fenetre extends JFrame implements ActionListener {
                     
                     DatabaseConnection.Requete("DELETE from stock WHERE nom like '"+supp.getNom()+"' and date like '"+supp.getAnnee()+"' and type like '"+supp.getType()+"' LIMIT "+supp.getNb_bouteille()+";");
                 }
+                affichage(page);
             } catch (SQLException ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-            affichageGeneral(true);
+            
         }
         
         if(e.getSource() == general){
             try {
-                affichage(1);
+                page=1;
+                affichage(page);
             } catch (Exception ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-            affichageGeneral(true);
+            
         }
         if(e.getSource() == changer_utilisateur){
             
@@ -312,7 +308,7 @@ public class fenetre extends JFrame implements ActionListener {
                 String tmp = dialogue.ShowDialog();
                 if(!(tmp.equals(""))){
                     droit=dialogue.getRole();
-                    affichage(1);
+                    affichage(page);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
@@ -341,7 +337,7 @@ public class fenetre extends JFrame implements ActionListener {
             String tmp = dialogue.ShowDialog();
             if(!(tmp.equals(""))){
                 try {
-                    DatabaseConnection.Requete("DELETE FROM Utilisateur WHERE `Utilisateur`.`nom` = "+tmp+" ");
+                    DatabaseConnection.Requete("DELETE FROM Utilisateur WHERE nom = '"+tmp+"' ;");
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
