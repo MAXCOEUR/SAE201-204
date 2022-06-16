@@ -43,14 +43,14 @@ public class AjouterBouteille extends JDialog implements ActionListener, FocusLi
         super(owner,true);
         nom = new JTextField("nom de la bouteille");
         annee = new JTextField("annee de mise en bouteille");
-        nb_bouteille = new JTextField("nombre de bouteille a ajouter");
+        nb_bouteille = new JTextField("1");
         type = new JTextField("type de vin");
         valider = new JButton("valider");
         annuler = new JButton("annuler");
         pano = new JPanel();
         question_nom = new JLabel("nom de la bouteille");
         question_annee = new JLabel("annee de mise en bouteille");
-        question_nbBouteille = new JLabel("nombre de bouteille");
+        question_nbBouteille = new JLabel("1");
         question_type = new JLabel("type de vin");
         
         
@@ -142,6 +142,26 @@ public class AjouterBouteille extends JDialog implements ActionListener, FocusLi
 
     @Override
     public void focusLost(FocusEvent e) {
+        if(e.getSource() == nom){
+            if(nom.getText().equals("")){
+                nom.setText("nom de la bouteille");
+            }
+        }
+        if(e.getSource() == annee){
+            if(annee.getText().equals("")){
+                annee.setText("annee de mise en bouteille");
+            }
+        }
+        if(e.getSource() == nb_bouteille){
+            if(nb_bouteille.getText().equals("")){
+                nb_bouteille.setText("1");
+            }
+        }
+        if(e.getSource()== type){
+            if(type.getText().equals("")){
+                type.setText("type de vin");
+            }
+        }
     }
     
 

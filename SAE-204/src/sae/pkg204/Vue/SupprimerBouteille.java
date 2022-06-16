@@ -164,6 +164,11 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
 
     @Override
     public void focusLost(FocusEvent e) {
+         if(e.getSource() == nb_Bouteille){
+             if(nb_Bouteille.getText().equals("")){
+                 nb_Bouteille.setText("1");
+             }
+         }
     }
     
 }

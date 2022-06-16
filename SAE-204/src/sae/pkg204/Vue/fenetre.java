@@ -265,7 +265,9 @@ public class fenetre extends JFrame implements ActionListener {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
             String tmp = dialogue.ShowDialog();
-            System.out.println(tmp);
+            if(!(tmp.equals(""))){
+                System.out.println(tmp);
+            }
         }
         
         if(e.getSource() == ajouter_utilisateur){
