@@ -52,7 +52,7 @@ public class ThreadPriseDonnee extends Thread {
                 }
                 
                 
-                System.out.println(listeDate[i].toString());
+                
                 
                 
                 
