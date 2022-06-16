@@ -238,7 +238,7 @@ public class fenetre extends JFrame implements ActionListener {
             affichageGeneral(droit);
         break;
         case 2:
-            ;
+            
         break;
         case 3:
             

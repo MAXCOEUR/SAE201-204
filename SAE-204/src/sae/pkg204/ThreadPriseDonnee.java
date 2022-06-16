@@ -88,7 +88,8 @@ public class ThreadPriseDonnee extends Thread {
                     query = query.substring(0, query.length()-1);
                     query+=";";
                     DatabaseConnection.Requete(query);
-                    
+                    String query2 ="DELETE from temperature where 1000<(Select count(DateHeure) from temperature) LIMIT 500;";
+                    DatabaseConnection.Requete(query2);
                     fen.affichage(fen.page);
                 } catch (SQLException ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
