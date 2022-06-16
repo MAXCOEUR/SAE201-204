@@ -37,6 +37,7 @@ public class fenetre extends JFrame implements ActionListener {
     private AffichageTemperature panoTemperature;
     private AffichageHumidite panoHumidite;
     private AffichageGeneral panoGeneral;
+    private AffichageStock panoStock;
     
     private JMenuBar menu = new JMenuBar();
     
@@ -47,6 +48,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem general = new JMenuItem("Général");
     private JMenuItem temperature = new JMenuItem("Temperature");
     private JMenuItem humidite = new JMenuItem("Humidité");
+    private JMenuItem stock = new JMenuItem("Stock");
     
     
     private JMenuItem ajouter_Bouteille = new JMenuItem("Ajoute bouteille");
@@ -95,6 +97,7 @@ public class fenetre extends JFrame implements ActionListener {
         general.addActionListener(this);
         temperature.addActionListener(this);
         humidite.addActionListener(this);
+        stock.addActionListener(this);
         changer_utilisateur.addActionListener(this);
         ajouter_utilisateur.addActionListener(this);
         supprimer_utilisateur.addActionListener(this);
@@ -107,6 +110,7 @@ public class fenetre extends JFrame implements ActionListener {
             affichage.add(general);
             affichage.add(temperature);
             affichage.add(humidite);
+            affichage.add(stock);
         
         menu.add(Modifier);
             Modifier.add(ajouter_Bouteille);
@@ -160,6 +164,20 @@ public class fenetre extends JFrame implements ActionListener {
         
         
     }
+    public void affichageStock(){
+        
+        pano.removeAll();
+        
+        
+        panoStock = new AffichageStock();
+        pano.add(panoStock);
+                
+        
+        pano.updateUI();
+        
+        
+        
+    }
     
     
 
@@ -181,6 +199,9 @@ public class fenetre extends JFrame implements ActionListener {
         case 3:
             affichageHumidite();
             break;
+        case 4:
+            affichageStock();
+            break;
         default:
         //default statement or expression;
         }
@@ -197,6 +218,9 @@ public class fenetre extends JFrame implements ActionListener {
             break;
         case 3:
             panoHumidite.update();
+            break;
+        case 4:
+            panoStock.update();
             break;
         default:
         //default statement or expression;
@@ -265,6 +289,14 @@ public class fenetre extends JFrame implements ActionListener {
         if(e.getSource() == humidite){
             try {
                 page=3;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == stock){
+            try {
+                page=4;
                 affichage();
             } catch (Exception ex) {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
