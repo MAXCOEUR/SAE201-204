@@ -42,10 +42,6 @@ public class fenetre extends JFrame implements ActionListener {
     
 
     private JPanel pano = new JPanel();
-    private AffichageTemperature panoTemperature;
-    private AffichageHumidite panoHumidite;
-    private AffichageGeneral panoGeneral;
-    private AffichageStock panoStock;
     
     private JMenuBar menu = new JMenuBar();
     
@@ -72,6 +68,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
     private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
     private JMenuItem quitter = new JMenuItem("Quitter");
+    private JMenuItem liste_bouteille = new JMenuItem("liste des bouteilles");
     
     
     public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException, Exception {
@@ -123,6 +120,7 @@ public class fenetre extends JFrame implements ActionListener {
         humiditeAleatoire.addActionListener(this);
         stockAleatoire.addActionListener(this);
         BoutonAleatoire.addActionListener(this);
+        liste_bouteille.addActionListener(this);
     }
     
     /**
@@ -135,6 +133,7 @@ public class fenetre extends JFrame implements ActionListener {
             affichage.add(temperature);
             affichage.add(humidite);
             affichage.add(stock);
+            affichage.add(liste_bouteille);
         
         menu.add(Modifier);
             Modifier.add(ajouter_Bouteille);
@@ -149,6 +148,7 @@ public class fenetre extends JFrame implements ActionListener {
             aleatoire.add(humiditeAleatoire);
             aleatoire.add(stockAleatoire);
         
+            
         menu.add(quitter);
         if(droit == true){
             utilisateur.add(ajouter_utilisateur);
@@ -165,7 +165,7 @@ public class fenetre extends JFrame implements ActionListener {
         pano.removeAll();
         
         
-        panoTemperature = new AffichageTemperature();
+        AffichageTemperature panoTemperature = new AffichageTemperature();
         pano.add(panoTemperature);
                 
         
@@ -180,7 +180,7 @@ public class fenetre extends JFrame implements ActionListener {
         pano.removeAll();
         
         
-        panoHumidite = new AffichageHumidite();
+        AffichageHumidite panoHumidite = new AffichageHumidite();
         pano.add(panoHumidite);
                 
         
@@ -196,7 +196,7 @@ public class fenetre extends JFrame implements ActionListener {
         pano.removeAll();
         
         
-        panoGeneral = new AffichageGeneral();
+        AffichageGeneral panoGeneral = new AffichageGeneral();
         pano.add(panoGeneral);
                 
         
@@ -214,7 +214,7 @@ public class fenetre extends JFrame implements ActionListener {
         pano.removeAll();
         
         
-        panoStock = new AffichageStock();
+        AffichageStock panoStock = new AffichageStock();
         pano.add(panoStock);
                 
         
@@ -222,6 +222,47 @@ public class fenetre extends JFrame implements ActionListener {
         
         
         
+    }
+    
+    public void affichageGeneralAlearoire(){
+        pano.removeAll();
+        
+        
+        AffichageGeneralAleatoire panoG = new AffichageGeneralAleatoire();
+        pano.add(panoG);
+                
+        
+        pano.updateUI();
+    }
+    public void affichageTemperatureAleatoire(){
+        pano.removeAll();
+        
+        
+        AffichageTemperatureAleatoire panoStock = new AffichageTemperatureAleatoire();
+        pano.add(panoStock);
+                
+        
+        pano.updateUI();
+    }
+    public void affichageHumiditeAleatoire(){
+        pano.removeAll();
+        
+        
+        AffichageHumiditeAleatoire panoStock = new AffichageHumiditeAleatoire();
+        pano.add(panoStock);
+                
+        
+        pano.updateUI();
+    }
+    public void affichageStockAleatoire(){
+        pano.removeAll();
+        
+        
+        AffichageStockAleatoire panoStock = new AffichageStockAleatoire();
+        pano.add(panoStock);
+                
+        
+        pano.updateUI();
     }
     
     
@@ -247,30 +288,30 @@ public class fenetre extends JFrame implements ActionListener {
         case 4:
             affichageStock();
             break;
+        case 5:
+            pano.removeAll();
+            pano.add(new Affichage_Bouteille());
+            pano.updateUI();
+            
+        case 10:
+            affichageGeneralAlearoire();
+            break;
+        case 11:
+            affichageTemperatureAleatoire();
+            break;
+        case 12:
+            affichageHumiditeAleatoire();
+            break;
+        case 13:
+            affichageStockAleatoire();
+            break;
+            
         default:
         //default statement or expression;
         }
     }
     
-    public void update() throws Exception{
-        switch(page)
-        {
-        case 1:
-            panoGeneral.update();
-            break;
-        case 2:
-            panoTemperature.update();
-            break;
-        case 3:
-            panoHumidite.update();
-            break;
-        case 4:
-            panoStock.update();
-            break;
-        default:
-        //default statement or expression;
-        }
-    }
+    
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -443,6 +484,15 @@ public class fenetre extends JFrame implements ActionListener {
         if(e.getSource() == quitter){
             SAE204.t.stop();
             this.dispose();
+        }
+        if(e.getSource() == liste_bouteille){
+            try {
+                page=5;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
     

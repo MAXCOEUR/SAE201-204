@@ -28,7 +28,7 @@ public class BarChart {
          chartTitle,           
          "",            
          "",            
-         createDataset(),          
+         createDataset(query),          
          PlotOrientation.VERTICAL,           
          false, true, false);
          
@@ -40,13 +40,13 @@ public class BarChart {
     * cette methode permet de recuperer les donnée de la base de donnée pour faire le graphique (appelé dans le constructeur).
     * @return les données de la base de donnée dans un dataset.
     */
-   private static CategoryDataset createDataset( ) {
+   private static CategoryDataset createDataset(String query) {
        
       final DefaultCategoryDataset dataset = 
       new DefaultCategoryDataset( );  
       
       try {
-            ResultSet s = DatabaseConnection.Requete("SELECT date D, COUNT(nom) N FROM `stock` GROUP BY date;");
+            ResultSet s = DatabaseConnection.Requete(query);
             while (s.next()) {
                 dataset.addValue( s.getInt("N") , "" , ""+s.getString("D").charAt(0)+s.getString("D").charAt(1)+s.getString("D").charAt(2)+s.getString("D").charAt(3) );
             }   
