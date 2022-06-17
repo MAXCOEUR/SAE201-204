@@ -19,6 +19,7 @@ import org.jfree.chart.ChartPanel;
 import sae.pkg204.RechercheDansBDD.Camenbert;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
+import sae.pkg204.RechercheDansBDD.Graph;
 import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.TempEtHum;
 
@@ -42,20 +43,12 @@ public class AffichageGeneral extends JPanel{
             JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
             JLabelHumidite.setFont(new Font("Serif", Font.BOLD, 60));
             
-            ResultSet resultMin = DatabaseConnection.Requete("SELECT MIN(T) MinT from ((SELECT DateHeure  D, temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC) e;");
-            float min =0;
-            while (resultMin.next()) {
-                min = resultMin.getFloat("MinT");
-            }
-            temperature = LineChart.LineChartTemperature("(SELECT DateHeure  D,temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;",min);
+            
+            temperature =  Graph.GraphTemp("(SELECT hour(DateHeure) h, minute(DateHeure) m, second(DateHeure) s, DateHeure  D,temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;");
             temperature.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height/2-20));
             
-            ResultSet resultMin2 = DatabaseConnection.Requete("SELECT MIN(H) MinH from ((SELECT DateHeure  D, temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC) e;");
-            float min2 =0;
-            while (resultMin2.next()) {
-                min2 = resultMin2.getFloat("MinH");
-            }
-            humiditer = LineChart.LineChartHumidite("(SELECT DateHeure  D,temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;",min2);
+            
+            humiditer = Graph.GraphHum("(SELECT hour(DateHeure) h, minute(DateHeure) m, second(DateHeure) s, DateHeure  D,temperature T,humidite HU FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;");
             humiditer.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height/2-20));
             
             
