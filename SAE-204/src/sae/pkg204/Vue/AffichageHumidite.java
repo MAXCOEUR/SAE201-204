@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.Graph;
-import sae.pkg204.RechercheDansBDD.LineChart;
 
 /**
  * cett eclasse permet de créer un JPanel avec le graphique de l'humidité dans notre cave.

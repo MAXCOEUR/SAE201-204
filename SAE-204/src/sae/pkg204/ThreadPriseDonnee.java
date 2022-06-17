@@ -46,7 +46,7 @@ public class ThreadPriseDonnee extends Thread {
                 while (liste[i]==null) {
                     AnalogI2CInput an = new AnalogI2CInput(0);
                     DHT22 dht22 = new DHT22(5);
-                    if (dht22==null) {
+                    if (dht22==null || dht22.getTemperatureAndHumidity().getTemperature()<=-255) {
                         ;
                     }
                     else{
