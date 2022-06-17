@@ -437,6 +437,39 @@ public class fenetre extends JFrame implements ActionListener {
                 Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(e.getSource() == generalAleatoire){
+            try {
+                page=10;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == temperatureAleatoire){
+            try {
+                page=11;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == humiditeAleatoire){
+            try {
+                page=12;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == stockAleatoire){
+            try {
+                page=13;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         if(e.getSource() == changer_utilisateur){
             
             Changer_utilisateur dialogue = null;
