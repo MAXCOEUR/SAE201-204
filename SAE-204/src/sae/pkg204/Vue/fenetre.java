@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -19,15 +20,22 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Hour;
+import org.jfree.data.time.Minute;
+import org.jfree.data.time.Second;
+import sae.pkg204.AnalogI2CInput;
+import sae.pkg204.DHT22;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.SAE204;
+import sae.pkg204.TempEtHum;
 
 /**
  * cette classe permet de créer la fenêtres de notre application.
  * @author chama
  */
 public class fenetre extends JFrame implements ActionListener {
-    
+    private final int nbrIterationDansTime=1000;
     public static Dimension tailleFenetre;
     private boolean droit;
     public static int page=1;
@@ -44,6 +52,13 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenu affichage = new JMenu("Affichage");
     private JMenu Modifier = new JMenu("Modifier");
     private JMenu utilisateur = new JMenu("Utilisateur");
+    private JMenu aleatoire = new JMenu("Aléatoire");
+    
+    private JMenuItem BoutonAleatoire = new JMenuItem("Aléatoire");
+    private JMenuItem generalAleatoire = new JMenuItem("Général Aléatoire");
+    private JMenuItem temperatureAleatoire = new JMenuItem("temperature Aléatoire");
+    private JMenuItem humiditeAleatoire = new JMenuItem("Humidite Aléatoire");
+    private JMenuItem stockAleatoire = new JMenuItem("Stock Aléatoire");
     
     private JMenuItem general = new JMenuItem("Général");
     private JMenuItem temperature = new JMenuItem("Temperature");
@@ -103,6 +118,11 @@ public class fenetre extends JFrame implements ActionListener {
         ajouter_utilisateur.addActionListener(this);
         supprimer_utilisateur.addActionListener(this);
         quitter.addActionListener(this);
+        generalAleatoire.addActionListener(this);
+        temperatureAleatoire.addActionListener(this);
+        humiditeAleatoire.addActionListener(this);
+        stockAleatoire.addActionListener(this);
+        BoutonAleatoire.addActionListener(this);
     }
     
     /**
@@ -122,6 +142,12 @@ public class fenetre extends JFrame implements ActionListener {
         
         menu.add(utilisateur);
             utilisateur.add(changer_utilisateur);
+        menu.add(aleatoire);
+            aleatoire.add(BoutonAleatoire);
+            aleatoire.add(generalAleatoire);
+            aleatoire.add(temperatureAleatoire);
+            aleatoire.add(humiditeAleatoire);
+            aleatoire.add(stockAleatoire);
         
         menu.add(quitter);
         if(droit == true){
@@ -267,6 +293,55 @@ public class fenetre extends JFrame implements ActionListener {
                 } catch (Exception ex) {
                     Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        }
+        if(e.getSource()==BoutonAleatoire){
+                
+        
+            LocalDateTime timeNow = null;
+        Double liste[] = new Double[500];
+        Double liste2[] = new Double[500];
+        String listeDate[]= new String [500];
+            try {
+                DatabaseConnection.Requete("DELETE FROM `AleatoireTemperature`");
+                DatabaseConnection.Requete("DELETE FROM `AleatoireStock`");
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        String query2="INSERT INTO `AleatoireStock`(`date`, `nom`, `type`) VALUES "; 
+        String query="INSERT INTO `AleatoireTemperature`(`DateHeure`,`humidite`, `temperature`) VALUES ";
+        String nom[] ={ "rez" , "te", "saint emilion", "cabernet d anjoue", "saut long boss aire", "CDF" , "chateau neuf", "Ice tea", "Coca Light", "Pespi"};
+        String type[] = {"rouge","blanc","rose","petillant"};
+                Second test=null;
+                for (int i=0;i<500;i++) {
+                    if(i==0){
+                    liste[0]=Math.random()*40-10;
+                    liste2[0]=Math.random()*20+40;
+                    timeNow = LocalDateTime.now();
+                    test = new Second(0,new Minute());
+                    
+                    }
+                    else{
+                        liste[i]= liste[i-1]-(Math.random()*2-1);
+                        liste2[i]=liste2[i-1]-(Math.random()*2-1);
+                    }
+                    listeDate[i]=test.getMinute().getDay().getYear()+"-"+test.getMinute().getDay().getMonth()+"-"+test.getMinute().getDay().getDayOfMonth()+" "+test.getMinute().getHour().getHour()+":"+test.getMinute().getMinute()+":"+test.getSecond();
+                    query +="('"+listeDate[i]+"','"+liste2[i]+"','"+liste[i]+"'),";
+                    if(i<50){
+                        if(Math.random()>0.50)
+                            query2+="('"+(int) (Math.random()*70+1960)+"','"+nom[(int) (Math.random()*10)]+"','"+type[(int) (Math.random()*4)]+"'),";
+                    }
+                    test = (Second) test.next();
+                }
+                query2 = query2.substring(0, query2.length()-1);
+                query = query.substring(0, query.length()-1);
+                query+=";";
+                query2+=";";
+            try {
+                DatabaseConnection.Requete(query);
+                DatabaseConnection.Requete(query2);
+            } catch (SQLException ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if(e.getSource() == supprimer_Bouteille){
