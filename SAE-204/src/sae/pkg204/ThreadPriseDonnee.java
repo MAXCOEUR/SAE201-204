@@ -27,22 +27,32 @@ public class ThreadPriseDonnee extends Thread {
   public ThreadPriseDonnee(){
     }
     public void run(){
-        TempEtHum liste[] = new TempEtHum[nbrIterationDansTime];
-        String listeDate[]= new String [nbrIterationDansTime];
+        
         
         LocalDateTime timeNow = null;
         int i=0; 
-        
+        TempEtHum liste[] = new TempEtHum[nbrIterationDansTime];
+        String listeDate[]= new String [nbrIterationDansTime];
         while (true) {
+            
             try {
                 if (i==0) {
                     timeNow = LocalDateTime.now();
                 }
                 
+                while (liste[i]==null) {
+                    AnalogI2CInput an = new AnalogI2CInput(0);
+                    DHT22 dht22 = new DHT22(5);
+                    if (dht22==null) {
+                        ;
+                    }
+                    else{
+                        liste[i] = dht22.getTemperatureAndHumidity();
+                    }
+                }
                 
-                AnalogI2CInput an = new AnalogI2CInput(0);
-                DHT22 dht22 = new DHT22(5);
-                liste[i] = dht22.getTemperatureAndHumidity();
+                
+                
                 
                 if (timeNow.getSecond()+i>=60) {
                     listeDate[i] = timeNow.getYear()+"-"+timeNow.getMonthValue()+"-"+timeNow.getDayOfMonth()+" "+timeNow.getHour()+":"+(timeNow.getMinute()+1)+":"+((timeNow.getSecond()+i)%60);
@@ -58,17 +68,16 @@ public class ThreadPriseDonnee extends Thread {
                 
                 
                 
-                
-                sleep(time/nbrIterationDansTime+(nbrIterationDansTime*10+1));
+                sleep(time/nbrIterationDansTime);
                 
                 
             }
             } catch (IOException ex) {
-                Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("erreur1");
             } catch (I2CFactory.UnsupportedBusNumberException ex) {
-                Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("erreur2");
             } catch (InterruptedException ex) {
-                Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("erreur3");
             }
             
             i++;
@@ -82,7 +91,7 @@ public class ThreadPriseDonnee extends Thread {
                             //DatabaseConnection.Requete("INSERT INTO temperature (DateHeure, temperature, humidite) VALUES (now(), '"+liste[j].getTemperature()+"', '"+liste[j].getHumidide()+"');");
                             //System.out.println(liste[j].getTemperature());
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.out.println("erreur10");
                         }
                     }
                     query = query.substring(0, query.length()-1);
@@ -90,11 +99,17 @@ public class ThreadPriseDonnee extends Thread {
                     DatabaseConnection.Requete(query);
                     String query2 ="DELETE from temperature where 2000<(Select count(DateHeure) from temperature) LIMIT 500;";
                     DatabaseConnection.Requete(query2);
+                    
+                    liste = new TempEtHum[nbrIterationDansTime];
+                    listeDate= new String [nbrIterationDansTime];
+                    
+                    sleep(time/nbrIterationDansTime);
+                    
                     fen.affichage();
                 } catch (SQLException ex) {
-                    Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex);
                 } catch (Exception ex) {
-                    Logger.getLogger(ThreadPriseDonnee.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("erreur5");
                 }
                 
             }
