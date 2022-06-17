@@ -24,7 +24,7 @@ import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.TempEtHum;
 
 /**
- *
+ * cette classe permet de créer un JPanel pour afficher les 3 graphiques de notre affichage par default.
  * @author Maxen
  */
 public class AffichageGeneral extends JPanel{

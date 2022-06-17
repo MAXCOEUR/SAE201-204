@@ -15,7 +15,10 @@ import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.Vue.fenetre;
 
 // getTimeInMillis
-
+/**
+ * cette classe permet de créer un graphique de l'humidité et de la temperature.
+ * @author Maxen
+ */
 public class LineChart {
 
    public static ChartPanel LineChart(String query) throws Exception {
@@ -41,6 +44,13 @@ public class LineChart {
       return  new ChartPanel(lineChartObject);
     }
    
+   /**
+    * 
+    * @param query
+    * @param min
+    * @return
+    * @throws Exception 
+    */
    public static ChartPanel LineChartTemperature(String query,float min) throws Exception {
        
         Statement s = DatabaseConnection.getConnection();

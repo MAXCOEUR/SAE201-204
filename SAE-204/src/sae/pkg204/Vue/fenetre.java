@@ -23,7 +23,7 @@ import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.SAE204;
 
 /**
- *
+ * cette classe permet de créer la fenêtres de notre application.
  * @author chama
  */
 public class fenetre extends JFrame implements ActionListener {
@@ -58,7 +58,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
     private JMenuItem quitter = new JMenuItem("Quitter");
     
-
+    
     public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException, Exception {
 //        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
 //        GpioController gpio = GpioFactory.getInstance();
@@ -104,6 +104,9 @@ public class fenetre extends JFrame implements ActionListener {
         quitter.addActionListener(this);
     }
     
+    /**
+     * cette fonction nous permet d'afficher la JMenuBar que chaque utilisateur posséde.
+     */
     public void affichageMenu(){
         utilisateur.removeAll();
         menu.add(affichage);
@@ -128,6 +131,9 @@ public class fenetre extends JFrame implements ActionListener {
         setJMenuBar(menu);
     }
     
+    /**
+     * cette methode permet de faire l'affichage du graphique de temperature seul.
+     */    
     public void affichageTemperature(){
         pano.removeAll();
         
@@ -139,6 +145,10 @@ public class fenetre extends JFrame implements ActionListener {
         pano.updateUI();
         
     }
+    
+    /**
+     * cette methdoe permet de  faire l'affichage du graphique de l'humidité seul
+     */
     public void affichageHumidite(){
         pano.removeAll();
         
@@ -150,6 +160,10 @@ public class fenetre extends JFrame implements ActionListener {
         pano.updateUI();
         
     }
+    
+    /**
+     * cette methode permet de faire l'affichage originel de notre application.
+     */
     public void affichageGeneral(){
         
         pano.removeAll();
@@ -164,6 +178,10 @@ public class fenetre extends JFrame implements ActionListener {
         
         
     }
+    
+    /**
+     * cette methode nous permet de faire l'affichage des vin par date 
+     */
     public void affichageStock(){
         
         pano.removeAll();

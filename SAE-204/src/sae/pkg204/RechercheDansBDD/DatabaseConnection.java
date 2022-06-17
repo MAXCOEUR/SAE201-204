@@ -5,7 +5,7 @@
 package sae.pkg204.RechercheDansBDD;
 
 /**
- *
+ * cette classe permet de créer une connection vers la base de donnée du raspberry
  * @author Maxen
  */
 import java.sql.Connection;
@@ -33,6 +33,12 @@ public class DatabaseConnection {
 			e.printStackTrace();
 		}
 	}
+        /**
+         * cette methode permet de verifier si une instance de connection est deja crée. si c'est le cas, elle ne fais rien et renvoie la connection deja créée.
+         * Sino, elle créer la nouvelle connection.
+         * @return la connection a la base de donnée.
+         */
+        
 	public static Statement getConnection()
 	{
             if (st==null) {
@@ -40,6 +46,13 @@ public class DatabaseConnection {
             }
             return st;
 	}
+        
+        /**
+         * cette methode permet d'executer une requête SQL dans la base.
+         * @param r correspond à la requete a executer en SQL
+         * @return un ResultSet corespondant au resultat de la requete
+         * @throws SQLException si la requete n'a pas pu s'executer.
+         */
         public static ResultSet Requete(String r) throws SQLException{
             getConnection();
             return st.executeQuery(r);

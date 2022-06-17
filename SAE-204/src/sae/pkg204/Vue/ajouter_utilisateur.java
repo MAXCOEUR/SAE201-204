@@ -21,7 +21,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
- *
+ * cette classe permet de créer la JDialog pour ajouter un utilisateur.
  * @author chama
  */
 public class ajouter_utilisateur extends JDialog implements ActionListener, FocusListener{
@@ -143,7 +143,11 @@ public class ajouter_utilisateur extends JDialog implements ActionListener, Focu
             }
         }
     }
-
+    
+    /**
+     * cette méthode permet d'afficher cette JDialog et renvoie une instance de Utilisateur avec les valeur récupé dans la JDialog.
+     * @return l'utilisateur a créer.
+     */
     public Utilisateur ShowDialog(){
         this.setVisible(true);
         return ut;       

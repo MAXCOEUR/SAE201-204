@@ -7,7 +7,7 @@ package sae.pkg204.RechercheDansBDD;
 
 
 /**
- *
+ * cette classe permet de créer l'histogramme des stock de notre cave.
  * @author Maxen
  */
 import java.sql.ResultSet;
@@ -36,6 +36,10 @@ public class BarChart {
       return new ChartPanel( barChart );
    }
    
+   /**
+    * cette methode permet de recuperer les donnée de la base de donnée pour faire le graphique (appelé dans le constructeur).
+    * @return les données de la base de donnée dans un dataset.
+    */
    private static CategoryDataset createDataset( ) {
        
       final DefaultCategoryDataset dataset = 

@@ -17,15 +17,18 @@ import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.Vue.fenetre;
 
 /**
- *
+ * cette classe permet de récuperer les donnée du caprteur de manière periodique.
  * @author Maxen
  */
 public class ThreadPriseDonnee extends Thread {
     fenetre fen = SAE204.fen;
     private int time = 10000;
     private int nbrIterationDansTime=10;
-  public ThreadPriseDonnee(){
+    public ThreadPriseDonnee(){
     }
+    /**
+     * cette methode lance le thread de prise de donnée chaque seconde et les ajoute toute les 10 secondes.
+     */
     public void run(){
         
         

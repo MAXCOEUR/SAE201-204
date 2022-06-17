@@ -15,7 +15,7 @@ import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.LineChart;
 
 /**
- *
+ * cette classe permet de créer un JPanel pour afficher le graphiqeu des stock de la cave.
  * @author Maxen
  */
 public class AffichageStock extends JPanel{

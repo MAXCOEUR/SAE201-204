@@ -10,7 +10,7 @@ import java.sql.Statement;
 import sae.pkg204.TempEtHum;
 
 /**
- *
+ * cette classe permet de récuper les dernières valeurs de temperature et humidité dans la base de donnnées.
  * @author Maxen
  */
 public class DernierePriseT {

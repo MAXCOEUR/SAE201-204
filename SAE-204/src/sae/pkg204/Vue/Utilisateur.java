@@ -6,7 +6,7 @@ package sae.pkg204.Vue;
  */
 
 /**
- *
+ * cette classe permet de concerver l'ensemble des information en rapport avec un utilisateur.
  * @author chama
  */
 public class Utilisateur {

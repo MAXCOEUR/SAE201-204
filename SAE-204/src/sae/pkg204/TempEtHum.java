@@ -5,7 +5,7 @@
 package sae.pkg204;
 
 /**
- *
+ * cette classe permet de concerver les donnée de temperature et d'humidité.
  * @author Maxen
  */
 public class TempEtHum {

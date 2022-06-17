@@ -15,7 +15,7 @@ import sae.pkg204.RechercheDansBDD.Graph;
 import sae.pkg204.RechercheDansBDD.LineChart;
 
 /**
- *
+ * cett eclasse permet de créer un JPanel avec le graphique de l'humidité dans notre cave.
  * @author Maxen
  */
 public class AffichageHumidite extends JPanel{

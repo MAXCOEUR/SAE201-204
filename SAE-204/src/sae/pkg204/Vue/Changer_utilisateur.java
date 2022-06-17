@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
- *
+ * cette classe permet de créer une JDialog pour changer d'utilisateur.
  * @author chama
  */
 public class Changer_utilisateur extends JDialog implements ActionListener, FocusListener{
@@ -122,6 +122,10 @@ public class Changer_utilisateur extends JDialog implements ActionListener, Focu
         }
     }
     
+    /**
+     * cette methode permet d'afficher la JDialog et renvoie un nom d'utilisateur a la fermeture de la JDialog.
+     * @return un nom d'utilisateur.
+     */
     public String ShowDialog(){
         this.setVisible(true);
         return utilisateur;
@@ -143,6 +147,11 @@ public class Changer_utilisateur extends JDialog implements ActionListener, Focu
         }
     }
     
+    /**
+     * cette methode permet de récuperer les droit d'utilisateur de l'utilisateur renvoyé par la methode ShowDialog.
+     * @return un boolean indiquant si il a le droit de modifier la table utilisateur dans la base de donnée.
+     * @throws SQLException cette exception est levé si la requete ne s'execute pas.
+     */
     public boolean getRole() throws SQLException{
         DatabaseConnection.getConnection();
         ResultSet result = DatabaseConnection.Requete("SELECT droit FROM `Utilisateur` WHERE nom like \""+utilisateur+"\";");
