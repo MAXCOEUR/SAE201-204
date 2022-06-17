@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
- *
+ * cette classe permet de créer un JDialog pour supprimer un utilisateur.
  * @author chama
  */
 public class Supprimer_utilisateur extends JDialog implements ActionListener{
@@ -100,6 +100,10 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
         }
     }
     
+    /**
+     * cette methode permet d'afficher la JDialog et renvoie un nom d'utilisateur a la fermeture du JDialog.
+     * @return le nom de l'utilisateur à supprimer.
+     */
     public String ShowDialog(){
         this.setVisible(true);
         return utilisateur;

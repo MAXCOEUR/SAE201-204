@@ -16,7 +16,7 @@ import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.LineChart;
 
 /**
- *
+ * cette classe permet de créer un JPanel avec le graphique de temperature.
  * @author Maxen
  */
 public class AffichageTemperature extends JPanel{

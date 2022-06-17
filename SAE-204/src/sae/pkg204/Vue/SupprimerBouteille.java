@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
- *
+ * cette methode permet de créer un JDialog pour retirer une bouteille de la cave.
  * @author chama
  */
 public class SupprimerBouteille extends JDialog implements ActionListener, FocusListener{
@@ -57,6 +57,10 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
         actualiser();
         
     }
+    
+    /**
+     * cette methode permet de mettre a jour l'affichage de la JDialog en fonction des valeur selectionné dans les JComboBox
+     */
     private void actualiser(){
         pano.removeAll();
         GridBagConstraints g = new GridBagConstraints();
@@ -96,6 +100,10 @@ public class SupprimerBouteille extends JDialog implements ActionListener, Focus
         liste_date_bouteille.addActionListener(this);
     }
     
+    /**
+     * cette methode permet d'afficher la JDialog et renvoie une Bouteille a la fermeture de la JDialog.
+     * @return une Bouteille.
+     */
     public Bouteille ShowDialog(){
         this.setVisible(true);
         return supp;

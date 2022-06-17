@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 
 /**
- *
+ * cette classe permet de créer la JDialog permettant l'ajout d'une bouteille dans la cave.
  * @author chama
  */
 public class AjouterBouteille extends JDialog implements ActionListener, FocusListener{
@@ -102,6 +102,10 @@ public class AjouterBouteille extends JDialog implements ActionListener, FocusLi
         annuler.addActionListener(this);
     }
 
+    /**
+     * cette methode permet d'afficher la JDIalog et renvoie une BOuteille lorsque la JDIalog est fermé.
+     * @return la bouteille qui devra etre supprimé de la table.
+     */
     public Bouteille ShowDialog(){
         this.setVisible(true);
         return ajout;

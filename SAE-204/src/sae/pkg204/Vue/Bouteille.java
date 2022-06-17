@@ -5,7 +5,7 @@
 package sae.pkg204.Vue;
 
 /**
- *
+ * cette classe permet de créer une instance de Bouteille affin de concerver le nom, l'annee, le type et le nombre de bouteille.
  * @author chama
  */
 public class Bouteille {
