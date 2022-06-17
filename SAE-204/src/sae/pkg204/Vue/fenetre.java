@@ -53,6 +53,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuItem supprimer_utilisateur = new JMenuItem("Supprimer un utilisateur");
     private JMenuItem changer_utilisateur = new JMenuItem("changer utilisateur");
     private JMenuItem quitter = new JMenuItem("Quitter");
+    private JMenuItem liste_bouteille = new JMenuItem("liste des bouteilles");
     
     
     public fenetre() throws SQLException, ClassNotFoundException, I2CFactory.UnsupportedBusNumberException, IOException, IOException, Exception {
@@ -99,6 +100,7 @@ public class fenetre extends JFrame implements ActionListener {
         ajouter_utilisateur.addActionListener(this);
         supprimer_utilisateur.addActionListener(this);
         quitter.addActionListener(this);
+        liste_bouteille.addActionListener(this);
     }
     
     /**
@@ -111,6 +113,7 @@ public class fenetre extends JFrame implements ActionListener {
             affichage.add(temperature);
             affichage.add(humidite);
             affichage.add(stock);
+            affichage.add(liste_bouteille);
         
         menu.add(Modifier);
             Modifier.add(ajouter_Bouteille);
@@ -118,7 +121,9 @@ public class fenetre extends JFrame implements ActionListener {
         
         menu.add(utilisateur);
             utilisateur.add(changer_utilisateur);
+            
         
+            
         menu.add(quitter);
         if(droit == true){
             utilisateur.add(ajouter_utilisateur);
@@ -258,7 +263,10 @@ public class fenetre extends JFrame implements ActionListener {
         case 4:
             affichageStock();
             break;
-            
+        case 5:
+            pano.removeAll();
+            pano.add(new Affichage_Bouteille());
+            pano.updateUI();
             
         case 10:
             affichageGeneralAlearoire();
@@ -402,6 +410,15 @@ public class fenetre extends JFrame implements ActionListener {
         if(e.getSource() == quitter){
             SAE204.t.stop();
             this.dispose();
+        }
+        if(e.getSource() == liste_bouteille){
+            try {
+                page=5;
+                affichage();
+            } catch (Exception ex) {
+                Logger.getLogger(fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
     
