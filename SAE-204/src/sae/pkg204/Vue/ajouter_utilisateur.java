@@ -59,6 +59,7 @@ public class ajouter_utilisateur extends JDialog implements ActionListener, Focu
         
         GridBagConstraints g = new GridBagConstraints();
         
+        
         this.setContentPane(pano);
         pano.setLayout(new GridBagLayout());
         

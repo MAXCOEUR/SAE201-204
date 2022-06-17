@@ -72,19 +72,16 @@ public class AffichageGeneral extends JPanel{
             g.gridx = 0;
             g.gridy = 0;
             g.gridheight =2;
-            temperature.setBorder(new LineBorder(Color.BLACK));
             this.add(temperature, g);
             
             g.gridx = 0;
             g.gridy = 2;
             g.gridheight =2;
-            humiditer.setBorder(new LineBorder(Color.BLACK));
             this.add(humiditer, g);
 
             g.gridx = 1;
             g.gridy = 1;
             g.gridheight =3;
-            camembert.setBorder(new LineBorder(Color.BLACK));
             this.add(camembert, g);
 
             
@@ -92,7 +89,6 @@ public class AffichageGeneral extends JPanel{
             g.gridx = 1;
             g.gridy = 0;
             g.gridheight =1;
-            Donnee.setBorder(new LineBorder(Color.BLACK));
             this.add(Donnee, g);
             
             

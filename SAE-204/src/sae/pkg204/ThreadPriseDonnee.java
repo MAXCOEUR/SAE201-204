@@ -46,10 +46,7 @@ public class ThreadPriseDonnee extends Thread {
                 while (liste[i]==null) {
                     AnalogI2CInput an = new AnalogI2CInput(0);
                     DHT22 dht22 = new DHT22(5);
-                    if (dht22==null || dht22.getTemperatureAndHumidity().getTemperature()<=-255) {
-                        ;
-                    }
-                    else{
+                    if (!(dht22.getTemperatureAndHumidity()==null) ) {
                         liste[i] = dht22.getTemperatureAndHumidity();
                     }
                 }
@@ -90,7 +87,9 @@ public class ThreadPriseDonnee extends Thread {
                     String query = "INSERT INTO temperature (DateHeure, temperature, humidite) VALUES ";
                     for (int j = 0; j < nbrIterationDansTime; j++) {
                         try {
-                            query+= "('"+listeDate[j]+"', '"+liste[j].getTemperature()+"', '"+liste[j].getHumidide()+"'),";
+                            if (liste[j].getTemperature()>-255) {
+                                query+= "('"+listeDate[j]+"', '"+liste[j].getTemperature()+"', '"+liste[j].getHumidide()+"'),";
+                            }
                             //DatabaseConnection.Requete("INSERT INTO temperature (DateHeure, temperature, humidite) VALUES (now(), '"+liste[j].getTemperature()+"', '"+liste[j].getHumidide()+"');");
                             //System.out.println(liste[j].getTemperature());
                         } catch (Exception e) {

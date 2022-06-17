@@ -70,7 +70,7 @@ public class fenetre extends JFrame implements ActionListener {
         
         
         
-        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        
         
         tailleFenetre=getPreferredSize();
         
@@ -84,6 +84,7 @@ public class fenetre extends JFrame implements ActionListener {
         affichageMenu();
         affichage();
         
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         if (device.isFullScreenSupported()) {
             device.setFullScreenWindow(this);
         } else {
