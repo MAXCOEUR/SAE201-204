@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import sae.pkg204.RechercheDansBDD.BarChart;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
-import sae.pkg204.RechercheDansBDD.LineChart;
 
 /**
  * cette classe permet de créer un JPanel pour afficher le graphiqeu des stock de la cave.

@@ -20,7 +20,6 @@ import sae.pkg204.RechercheDansBDD.Camenbert;
 import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.RechercheDansBDD.DernierePriseT;
 import sae.pkg204.RechercheDansBDD.Graph;
-import sae.pkg204.RechercheDansBDD.LineChart;
 import sae.pkg204.TempEtHum;
 
 /**
@@ -40,16 +39,16 @@ public class AffichageGeneral extends JPanel{
             TempEtHum TH=DernierePriseT.DerniereTempérature();
             JLabelTemperature = new JLabel(TH.getTemperature()+"°C");
             JLabelHumidite = new JLabel(TH.getHumidide()+"%");
-            JLabelTemperature.setFont(new Font("Serif", Font.BOLD, 75));
-            JLabelHumidite.setFont(new Font("Serif", Font.BOLD, 60));
+            JLabelTemperature.setFont(new Font("Serif", Font.BOLD, (fenetre.tailleFenetre.height+fenetre.tailleFenetre.width)/17));
+            JLabelHumidite.setFont(new Font("Serif", Font.BOLD, (fenetre.tailleFenetre.height+fenetre.tailleFenetre.width)/21));
             
             
             temperature =  Graph.GraphTemp("(SELECT hour(DateHeure) h, minute(DateHeure) m, second(DateHeure) s, DateHeure  D,temperature T,humidite H FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;");
-            temperature.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height/2-20));
+            temperature.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height/2-10));
             
             
             humiditer = Graph.GraphHum("(SELECT hour(DateHeure) h, minute(DateHeure) m, second(DateHeure) s, DateHeure  D,temperature T,humidite HU FROM temperature ORDER BY D DESC LIMIT 100) ORDER BY D ASC;");
-            humiditer.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height/2-20));
+            humiditer.setPreferredSize(new Dimension( fenetre.tailleFenetre.width/2-10, fenetre.tailleFenetre.height/2-10));
             
             
             camembert = Camenbert.CreatePie("SELECT count(type) as Nombre,type from stock group by type;");
@@ -57,10 +56,9 @@ public class AffichageGeneral extends JPanel{
             
             Donnee.setLayout(new GridBagLayout());
             GridBagConstraints g1 = new GridBagConstraints();
-            g1.fill = GridBagConstraints.BOTH;
             g1.gridx = 0;
             g1.gridy = 0;
-            g1.fill = GridBagConstraints.HORIZONTAL;
+            
             Donnee.add(JLabelTemperature,g1);
             g1.gridy = 1;
             Donnee.add(JLabelHumidite,g1);
@@ -69,21 +67,24 @@ public class AffichageGeneral extends JPanel{
         
             GridBagConstraints g = new GridBagConstraints();
 
-            g.fill = GridBagConstraints.BOTH;
-
+            
+            g.fill = GridBagConstraints.VERTICAL;
             g.gridx = 0;
             g.gridy = 0;
-            g.gridheight =1;
-            g.fill = GridBagConstraints.HORIZONTAL;
+            g.gridheight =2;
+            temperature.setBorder(new LineBorder(Color.BLACK));
             this.add(temperature, g);
             
             g.gridx = 0;
-            g.gridy = 1;
+            g.gridy = 2;
+            g.gridheight =2;
+            humiditer.setBorder(new LineBorder(Color.BLACK));
             this.add(humiditer, g);
 
             g.gridx = 1;
             g.gridy = 1;
-            g.gridheight =1;
+            g.gridheight =3;
+            camembert.setBorder(new LineBorder(Color.BLACK));
             this.add(camembert, g);
 
             
@@ -91,7 +92,7 @@ public class AffichageGeneral extends JPanel{
             g.gridx = 1;
             g.gridy = 0;
             g.gridheight =1;
-            g.fill = GridBagConstraints.VERTICAL;
+            Donnee.setBorder(new LineBorder(Color.BLACK));
             this.add(Donnee, g);
             
             

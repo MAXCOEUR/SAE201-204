@@ -10,37 +10,22 @@ package sae.pkg204.RechercheDansBDD;
  */
 
 
-import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
 import org.jfree.data.time.Minute;
-import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RectangleInsets;
-import org.jfree.ui.RefineryUtilities;
 
 public class Graph{
 
@@ -65,11 +50,11 @@ public class Graph{
     private static JFreeChart createChart(XYDataset dataset,String titre) {
 
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
-            titre,  // title
-            "heure",             // x-axis label
-            titre,   // y-axis label
+            titre+"/heure",  // title
+            "",             // x-axis label
+            "",   // y-axis label
             dataset,            // data
-            true,               // create legend?
+            false,               // create legend?
             false,               // generate tooltips?
             false               // generate URLs?
         );
@@ -124,7 +109,7 @@ public class Graph{
         try {
             ResultSet resultSet = DatabaseConnection.Requete(query);
             
-            TimeSeries s1 = new TimeSeries("", Second.class);
+            TimeSeries s1 = new TimeSeries("Temperature/heure", Second.class);
             while (resultSet.next()) {
                 final Day today=new Day();
                 s1.add(new Second(resultSet.getInt("s"), new Minute(resultSet.getInt("m"), new Hour(resultSet.getInt("h"),today))), resultSet.getDouble("T"));
@@ -150,7 +135,7 @@ public class Graph{
         try {
             ResultSet resultSet = DatabaseConnection.Requete(query);
             
-            TimeSeries s1 = new TimeSeries("", Second.class);
+            TimeSeries s1 = new TimeSeries("Humidité/heure", Second.class);
             while (resultSet.next()) {
                 final Day today=new Day();
                 s1.add(new Second(resultSet.getInt("s"), new Minute(resultSet.getInt("m"), new Hour(resultSet.getInt("h"),today))), resultSet.getDouble("HU"));
@@ -164,7 +149,7 @@ public class Graph{
             
             
             
-            JFreeChart chart = createChart(dataset,"Humiditer");
+            JFreeChart chart = createChart(dataset,"Humidite");
             ChartPanel chartPanel = new ChartPanel(chart, false);
             return chartPanel;
         } catch (SQLException ex) {
