@@ -22,7 +22,7 @@ public class AffichageStock extends JPanel{
     public AffichageStock(){
         try {
             
-            Graph = BarChart.BarChart("", "");
+            Graph = BarChart.BarChart("SELECT date D, COUNT(nom) N FROM stock GROUP BY date;", "");
             Graph.setPreferredSize(new Dimension( fenetre.tailleFenetre.width-10, fenetre.tailleFenetre.height-50));
             
             this.add(Graph);

@@ -5,6 +5,7 @@
 package sae.pkg204.Vue;
 
 import com.pi4j.io.i2c.I2CFactory;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -46,6 +47,7 @@ public class fenetre extends JFrame implements ActionListener {
     private JMenuBar menu = new JMenuBar();
     
     private JMenu affichage = new JMenu("Affichage");
+    
     private JMenu Modifier = new JMenu("Modifier");
     private JMenu utilisateur = new JMenu("Utilisateur");
     private JMenu aleatoire = new JMenu("Aléatoire");
@@ -134,6 +136,7 @@ public class fenetre extends JFrame implements ActionListener {
             affichage.add(humidite);
             affichage.add(stock);
             affichage.add(liste_bouteille);
+            affichage.setOpaque(true);
         
         menu.add(Modifier);
             Modifier.add(ajouter_Bouteille);
@@ -147,6 +150,7 @@ public class fenetre extends JFrame implements ActionListener {
             aleatoire.add(temperatureAleatoire);
             aleatoire.add(humiditeAleatoire);
             aleatoire.add(stockAleatoire);
+            aleatoire.setOpaque(true);
         
             
         menu.add(quitter);
@@ -277,38 +281,58 @@ public class fenetre extends JFrame implements ActionListener {
         switch(page)
         {
         case 1:
+            affichage.setBackground(Color.GREEN);
+            aleatoire.setBackground(Color.WHITE);
             affichageGeneral();
             break;
         case 2:
+            affichage.setBackground(Color.GREEN);
+            aleatoire.setBackground(Color.WHITE);
             affichageTemperature();
             break;
         case 3:
+            affichage.setBackground(Color.GREEN);
+            aleatoire.setBackground(Color.WHITE);
             affichageHumidite();
             break;
         case 4:
+            affichage.setBackground(Color.GREEN);
+            aleatoire.setBackground(Color.WHITE);
             affichageStock();
             break;
         case 5:
             pano.removeAll();
+            affichage.setBackground(Color.GREEN);
+            aleatoire.setBackground(Color.WHITE);
             pano.add(new Affichage_Bouteille());
             pano.updateUI();
-            
+            break;
         case 10:
+            affichage.setBackground(Color.WHITE);
+            aleatoire.setBackground(Color.GREEN);
             affichageGeneralAlearoire();
             break;
         case 11:
+            affichage.setBackground(Color.WHITE);
+            aleatoire.setBackground(Color.GREEN);
             affichageTemperatureAleatoire();
             break;
         case 12:
+            affichage.setBackground(Color.WHITE);
+            aleatoire.setBackground(Color.GREEN);
             affichageHumiditeAleatoire();
             break;
         case 13:
+            affichage.setBackground(Color.WHITE);
+            aleatoire.setBackground(Color.GREEN);
             affichageStockAleatoire();
             break;
             
         default:
         //default statement or expression;
         }
+        affichage.updateUI();
+        aleatoire.updateUI();
     }
     
     
