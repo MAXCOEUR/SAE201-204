@@ -58,7 +58,7 @@ public class Changer_utilisateur extends JDialog implements ActionListener, Focu
         }
 
         question_password = new JLabel("mot de passe");
-        password = new JTextField("Admin");
+        password = new JTextField("Password");
         password.addFocusListener(this);
         this.valider = new JButton("valider");
         annuler = new JButton("annuler");

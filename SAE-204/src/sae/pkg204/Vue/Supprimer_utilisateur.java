@@ -36,6 +36,7 @@ public class Supprimer_utilisateur extends JDialog implements ActionListener{
         super(fen, true);
         utilisateur = new String();
         
+        
         this.setTitle("changer d'utilisateur");
         pano = new JPanel();
         this.setContentPane(pano);
