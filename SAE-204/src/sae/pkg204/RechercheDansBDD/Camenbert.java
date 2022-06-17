@@ -31,7 +31,7 @@ import sae.pkg204.RechercheDansBDD.DatabaseConnection;
 import sae.pkg204.Vue.fenetre;
 
 /**
- *
+ * cette classe permet de créer le diagramme circulaire du nombre de bouteille par type de vins.
  * @author p2101068
  */
 public class Camenbert  {
